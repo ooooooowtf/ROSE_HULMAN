@@ -1,0 +1,106 @@
+package containsPairDifference;
+
+import java.util.HashSet;
+import java.util.Stack;
+
+public class ContainsPairDifference<T extends Comparable<T>> {
+
+	public static boolean containsPairDifferenceLinearTime(int[] array, int diff) {
+		// TODO: write this
+		Stack left = new Stack<Integer>();
+		HashSet<Integer> right = new HashSet<Integer>();
+		// big theta of n, worse case n^2
+		if (diff != 0) {
+			
+			for (int i = 0; i < array.length; i++) {
+				left.push(array[i]);
+
+				right.add(array[i]+ diff);
+				right.add(array[i]- diff);
+			
+			}
+
+			for (int i = 0; i < array.length; i++) {
+				if (right.contains(left.pop())) {
+					return true;
+				}
+			}
+
+		} else {
+			for (int i = 0; i < array.length - 1; i++) {
+				for (int j = i+1; j < array.length; j++) {
+					if (array[i] == array[j]) {
+						return true;
+					}
+				}
+			}		
+		}
+		return false;
+	}
+
+	public static boolean containsPairDifferenceArrayOnly(int[] array, int diff) {
+		// TODO: write this
+		
+		//array has been sorted
+		mergeSort(array);
+		
+		for (int i = 0; i < array.length-1; i++) {
+			for (int j = i+1; j < array.length; j++) {
+				if (array[j] - array[i] == diff) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+
+	}
+
+	public static void mergeSort(int[] array) {
+		final int n = array.length;
+		if (n <= 1)
+			return;
+
+	
+		int[] lower = new int[n / 2];
+		int[] upper = new int[n - (n / 2)];
+		int arrayIndex = 0;
+		for (int i = 0; i < lower.length; i++) {
+			lower[i] = array[arrayIndex];
+			arrayIndex++;
+		}
+		for (int i = 0; i < upper.length; i++) {
+			upper[i] = array[arrayIndex];
+			arrayIndex++;
+		}
+
+		
+		mergeSort(lower);
+		mergeSort(upper);
+
+	
+		int lowerIndex = 0;
+		int upperIndex = 0;
+		arrayIndex = 0;
+		while (lowerIndex < lower.length && upperIndex < upper.length) {
+			if (lower[lowerIndex] <= (upper[upperIndex])) {
+				array[arrayIndex] = lower[lowerIndex];
+				arrayIndex++;
+				lowerIndex++;
+			} else {
+				array[arrayIndex] = upper[upperIndex];
+				arrayIndex++;
+				upperIndex++;
+			}
+		}
+		
+		for (int i = lowerIndex; i < lower.length; i++) {
+			array[arrayIndex] = lower[i];
+			arrayIndex++;
+		}
+		for (int i = upperIndex; i < upper.length; i++) {
+			array[arrayIndex] = upper[i];
+			arrayIndex++;
+		}
+	}
+}

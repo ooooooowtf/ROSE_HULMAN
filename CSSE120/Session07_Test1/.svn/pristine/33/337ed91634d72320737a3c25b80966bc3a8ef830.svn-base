@@ -1,0 +1,132 @@
+"""
+Test 1, problem 3.
+
+Authors: David Mutchler, Dave Fisher, Valerie Galluzzi, Amanda Stouder,
+         their colleagues and PUT_YOUR_NAME_HERE.  March 2017.
+"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+
+import rosegraphics as rg
+
+
+def main():
+    """ Calls the   TEST   functions in this module. """
+    test_problem3()
+
+
+def test_problem3():
+    """ Tests the  problem3   function. """
+    print()
+    print('--------------------------------------------------')
+    print('Testing the   problem3   function:')
+    print('  See the graphics windows that pop up.')
+    print('--------------------------------------------------')
+
+    # TWO tests on ONE window.
+    title = ('Tests 1 and 2 of problem3:    '
+             + '3 red/blue circles/squares, '
+             + 'then 10 smaller green/black ones')
+    window = rg.RoseWindow(700, 300, title)
+
+    vertical_line = rg.Line(rg.Point(50, 30),
+                            rg.Point(50, 130))
+    vertical_line.color = 'blue'
+    vertical_line.thickness = 3
+    problem3(vertical_line, window, 3, 'red')
+
+    window.continue_on_mouse_click()
+
+    vertical_line = rg.Line(rg.Point(20, 170),
+                            rg.Point(20, 200))
+    vertical_line.thickness = 3
+    problem3(vertical_line, window, 10, 'green')
+
+    window.close_on_mouse_click()
+
+    # A third test on another window.
+    title = 'Test 3 of problem3: 5 yellow circles and cyan squares'
+    window = rg.RoseWindow(400, 150, title)
+
+    vertical_line = rg.Line(rg.Point(40, 20),
+                            rg.Point(40, 40))
+    vertical_line.color = 'cyan'
+    vertical_line.thickness = 3
+    problem3(vertical_line, window, 5, 'yellow')
+
+    window.close_on_mouse_click()
+
+
+def problem3(line, window, m, color):
+    """
+    See   problem3_picture.pdf   in this project for pictures
+    that may help you better understand the following specification:
+
+    What comes in:
+      -- A vertical rg.Line
+           (So you can assume that the x-coordinates of the start
+            and end of the given rg.Line are equal.  You may also
+            assume that the y-coordinate of the rg.Line's end
+            is bigger than the y-coordinate of its start.)
+      -- An rg.RoseWindow.
+      -- A positive integer m
+      -- A string that represents a color in RoseGraphics.
+    What goes out:  Nothing (i.e., None).
+
+    Side effects:
+      1. Draws the given rg.Line on the given rg.RoseWindow.
+
+      2. Then draws a row of rg.Circle and rg.Square objects such that:
+
+        -- There are  m  rg.Circle objects and  m  rg.Square objects.
+
+        -- The rg.Circle and rg.Square objects alternate:
+             first an rg.Circle, then an rg.Square,
+             then an rg.Circle, then an rg.Square, etc.
+
+        -- The FILL COLOR of each rg.Circle is the given color.
+
+        -- The FILL COLOR of each rg.Square is the same as the color
+             of the given rg.Line.
+
+        -- For the SIZE of the rg.Circle and rg.Square objects:
+             Let LENGTH denote the length of the given rg.Line.
+             Then the diameter of each rg.Circle is LENGTH,
+             and the length of each side of each rg.Square is LENGTH.
+
+        -- For the POSITION of the rg.Circle and rg.Square objects:
+             -- The first rg.Circle is to the right of and adjacent to
+                  the given rg.Line.
+             -- Each rg.Square is to the right of and adjacent to
+                  the previous rg.Circle.
+             -- Each rg.Circle (except for the first one) is to the
+                  right of and adjacent to the previous rg.Square.
+
+      Must render but   ** NOT close **   the window.
+
+    Type hints:
+        :type line:    rg.Line
+        :type window:  rg.RoseWindow
+        :type m:       int
+        :type color:   str
+    """
+    # ------------------------------------------------------------------
+    # TODO: 2. Implement and test this function.
+    #          Tests have been written for you (above).
+    # IMPORTANT:
+    #  1. Do this problem in STAGES:
+    #     -- Draw just the given rg.Line and TEST that, then
+    #     -- Draw the first rg.Circle and TEST that, then
+    #     -- Draw the first rg.Square and TEST that, then
+    #     -- Draw the rest of the rg.Circles.
+    #     -- Draw the rest of the rg.Squares.
+    #
+    #     Partial credit will be given for succeeding partially
+    #     in the above steps.
+    #
+    #  2. If you are unable to figure out how to draw rg.Square objects,
+    #     then draw equivalent rg.Rectangle objects (for partial credit)
+    # ------------------------------------------------------------------
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()

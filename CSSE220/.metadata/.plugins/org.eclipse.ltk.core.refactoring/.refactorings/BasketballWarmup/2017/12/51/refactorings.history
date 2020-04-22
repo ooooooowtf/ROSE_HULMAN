@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;BasketballWarmup/src/stage1/Content.java&apos; to &apos;Contest.java&apos;" description="Rename resource &apos;Content.java&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/stage1/Content.java" name="Contest.java" stamp="1513696609202" updateReferences="true"/>
+</session>

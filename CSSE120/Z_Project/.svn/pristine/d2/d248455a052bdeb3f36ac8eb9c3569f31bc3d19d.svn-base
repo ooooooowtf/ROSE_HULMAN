@@ -1,0 +1,99 @@
+"""
+The Python Capstone Project.
+
+CSSE 120 - Introduction to Software Development.
+Team members: PUT-YOUR-NAMES_HERE (all of them).
+
+The primary author of this module is: PUT-YOUR-NAME-HERE.
+"""
+# TODO: Put the names of ALL team members in the above where indicated.
+#       Put YOUR NAME in the above where indicated.
+
+import m0
+import m1
+import m2
+import m3
+
+import tkinter
+from tkinter import ttk
+import rosebot.standard_rosebot as rb
+
+
+def my_frame(root, dc):
+    """
+    Constructs and returns a   ttk.Frame   on the given root window.
+    The frame contains all of this module's widgets.
+    Does NOT   grid   the Frame, since the caller will do that.
+    Also sets up callbacks for this module's widgets.
+
+    The first argument is the  root  window (a tkinter.Tk object)
+    onto which the   ttk.Frame  returned from this function
+    will be placed.  The second argument is the shared DataContainer
+    object that is CONSTRUCTED in m0 but USED in m1, m2, m3 and m4.
+
+    Preconditions:
+      :type root: tkinter.Tk
+      :type dc:   m0.DataContainer
+    """
+
+    frame = ttk.Frame(root, padding=10)
+
+    wired_label = ttk.Label(frame, text='Wired')
+    wired_label.grid()
+    wired_labelbox = m1.LabelBox('Port Number', frame, 2)
+    wired_labelbox.grid()
+
+    wired_connect_button = ttk.Button(frame, text='Connect')
+    wired_connect_button.grid()
+    wired_connect_button['command'] = lambda: connect_wired(dc, wired_labelbox.entrybox)
+
+    wired_disconnect_button = ttk.Button(frame, text='Disonnect')
+    wired_disconnect_button.grid()
+    wired_disconnect_button['command'] = lambda: disconnect_wired(dc)
+
+    ttk.Label(frame, text='').grid()
+
+    wireless_label = ttk.Label(frame, text='Wireless')
+    wireless_label.grid()
+    wireless_labelbox = m1.LabelBox('URL', frame)
+    wireless_labelbox.grid()
+
+    wireless_connect_button = ttk.Button(frame, text='Connect')
+    wireless_connect_button.grid()
+    wireless_connect_button['command'] = lambda: connect_wireless(dc, wireless_labelbox.entrybox)
+
+    wireless_disconnect_button = ttk.Button(frame, text='Disconnect')
+    wireless_disconnect_button.grid()
+    wireless_disconnect_button['command'] = lambda: disconnect_wireless(dc)
+
+    return frame
+
+
+def connect_wired(dc, port_entrybox):
+
+    port = port_entrybox.get()
+    dc.angrybot.connector.connect_wired(port)
+
+
+def disconnect_wired(dc):
+
+    dc.angrybot.connector.disconnect()
+
+
+def connect_wireless(dc, url_entrybox):
+
+    url = str(url_entrybox.get())
+    dc.angrybot.connector.connect_wireless(url)
+
+
+def disconnect_wireless(dc):
+
+    dc.angrybox.connector.disconnect()
+
+
+# ----------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+# ----------------------------------------------------------------------
+if __name__ == '__main__':
+    m0.main()

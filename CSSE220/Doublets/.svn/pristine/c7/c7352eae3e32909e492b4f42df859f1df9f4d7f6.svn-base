@@ -1,0 +1,41 @@
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+
+public class Chain {
+	private HashSet<String> linkedChain;
+	
+	
+	public Chain(){
+		this.linkedChain = new LinkedHashSet<>();
+		
+	}
+	
+	public Chain addLast(String string) {
+		// TODO Auto-generated method stub.
+		
+		return this;
+	}
+
+	public Object getLast() {
+		// TODO Auto-generated method stub.
+		
+		return this.linkedChain.toArray()[linkedChain.size() - 1];
+	}
+
+	public Object length() {
+		// TODO Auto-generated method stub.
+		return this.linkedChain.size();
+	}
+
+	public boolean contains(String string) {
+		// TODO Auto-generated method stub.
+		return this.linkedChain.contains(string);
+	}
+
+	public Iterator<String> iterator() {
+		// TODO Auto-generated method stub.
+		return this.linkedChain.iterator();
+	}
+
+}

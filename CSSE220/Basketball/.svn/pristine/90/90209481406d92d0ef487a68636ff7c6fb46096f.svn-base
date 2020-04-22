@@ -1,0 +1,74 @@
+package stage1;
+
+public class Player {
+	public String name;
+	public double accuracy;
+	public String performance = "";
+
+	public Player(String nam, double accu) {
+		this.setName(nam);
+		this.setAccuracy(accu);
+	}
+
+	public void setName(String name1) {
+		this.name = name1;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setAccuracy(double accurac1) {
+		this.accuracy = accurac1;
+	}
+
+	public double getAccuracy() {
+		return this.accuracy;
+	}
+
+	public void setPerformance(String perform) {
+		this.performance = perform;
+	}
+
+	public String getPerformance() {
+		return this.performance;
+	}
+
+	public int getPerformanceSize() {
+		return this.performance.length();
+	}
+
+	public int getHitStreak(Contest con1) {
+		int count = 0;
+		int maxc = 0;
+		for (int i = 0; i < this.getPerformanceSize(); i++) {
+			char c = this.getPerformance().charAt(i);
+			if (c == 'X') {
+				count++;
+				if (count > maxc) {
+					maxc = count;
+				}
+			} else {
+				count = 0;
+			}
+		}
+		return maxc;
+	}
+
+	public double getPercentage(Contest con1) {
+		double j = 0.0;
+
+		for (int i = 0; i < this.getPerformanceSize(); i++) {
+			if (this.getPerformance().charAt(i) == 'X') {
+				j++;
+			}
+		}
+		return j / this.getPerformanceSize();
+	}
+
+	public String getRawData(Contest con1) {
+		String output = this.getPerformance();
+		return output;
+	}
+
+}

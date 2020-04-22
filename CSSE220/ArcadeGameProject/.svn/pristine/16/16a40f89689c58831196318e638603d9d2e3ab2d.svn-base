@@ -1,0 +1,158 @@
+
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+
+public abstract class Monster extends GameObject{
+	
+	// ======= Important Objects ======= \\
+	public Point2D centerPoint;
+	protected boolean isPaused = false;
+	protected BufferedImage image;
+	private String name;
+	private World world;
+	protected boolean up = false;
+	protected boolean down = false;
+	protected boolean left = false;
+	protected boolean right = false;
+	
+	public Monster(Point2D centerPoint, World world) {
+		super(centerPoint, world);
+		this.centerPoint = centerPoint;
+		this.name="pookie";
+		this.world = world;
+		this.setName("fygar");
+	}
+	
+
+	public Point2D returnPosition(){
+		return this.centerPoint;
+	}
+
+	
+//	@Override
+//	public void timePassed() {
+//		updatePosition();
+//
+//	}
+	
+
+	@Override
+	public void die() {
+	}
+
+	@Override
+	public void setIsPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
+
+	@Override
+	public boolean getIsPaused() {
+		return this.isPaused;
+	}
+	
+	public void updatePosition() {
+		Point2D newPosition = new Point2D.Double(300,400);
+		this.setCenterPoint(newPosition);
+	}
+
+//	protected boolean isPaused = false;
+//	protected BufferedImage image;
+//	
+//	// ======= Hero Constructor ======= \\
+//	
+//	public Monster(Point centerPoint, World world) {
+//		super(centerPoint, world);
+//		this.centerPoint = centerPoint;
+//	}
+//	
+//	// ======= Drawable Methods ======= \\
+//
+	public void moveBy(int dx, int dy) {
+		this.centerPoint = new Point2D.Double(centerPoint.getX() + dx, centerPoint.getY() + dy);
+	}
+	
+	public void updatePosition(int dx, int dy) {
+		this.centerPoint = new Point2D.Double(centerPoint.getX() + dx, centerPoint.getY() + dy);
+	}
+	
+	public Point2D getCenterPoint() {
+		return centerPoint;
+	}
+
+	public void setPosition(Point2D position) {
+		this.centerPoint = position;
+	}
+	
+	public void drawCentered(Graphics2D g2) {
+		g2 = (Graphics2D) g2.create();
+		g2.translate(this.centerPoint.getX()-image.getWidth() / 2, centerPoint.getY()-image.getHeight() / 2);
+		g2.drawImage(image, 0, 0, null);
+	}
+	
+	// ======= Other Methods ======= \\
+	
+	@Override
+	public void timePassed() {
+		updatePosition();
+		
+		Point2D leftPt = new Point2D.Double(this.centerPoint.getX() + 10, this.centerPoint.getY());
+		Point2D downPt = new Point2D.Double(this.centerPoint.getX(), this.centerPoint.getY() + 10);
+		Point2D rightPt = new Point2D.Double(this.centerPoint.getX() - 10, this.centerPoint.getY());
+		Point2D upPt = new Point2D.Double(this.centerPoint.getX(), this.centerPoint.getY() - 10);
+		
+		
+		if (left == false && this.blackSpaces.containsKey(leftPt)) {
+			this.right = true;
+			this.moveBy(10, 0);
+			return;
+		}else {
+			this.right = false;
+		}
+		
+		if (up == false && this.blackSpaces.containsKey(downPt)) {
+			this.down = true;
+			this.moveBy(0, 10);
+			return;
+		}else {
+			this.down = false;
+		}	
+		
+		if (this.blackSpaces.containsKey(rightPt)) {
+			this.left = true;
+			this.moveBy(-10, 0);
+			return;
+		}else {
+			this.left = false;
+		}
+		
+		if (this.blackSpaces.containsKey(upPt)) {
+			this.up = true;
+			this.moveBy(0, -10);
+			return;
+		}else {
+			this.up = false;
+		}
+	}
+	
+
+//	// ======= Temporal Methods ======= \\
+//
+//	@Override
+//	public void die() {
+//	}
+//
+//	@Override
+//	public void setIsPaused(boolean isPaused) {
+//		this.isPaused = isPaused;
+//	}
+//
+//	@Override
+//	public boolean getIsPaused() {
+//		return this.isPaused;
+//	}
+//
+//	// ======= GameObject Methods ======= \\
+//
+//	
+}

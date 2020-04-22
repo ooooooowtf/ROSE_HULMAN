@@ -1,0 +1,51 @@
+package lines;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.JComponent;
+
+/**
+ * This component uses a mouse listener to collect points and render lines
+ * between them.
+ * 
+ * @author Curt Clifton and <TODO: your name here>.
+ */
+public class LDComponent extends JComponent {
+	private static final Dimension SIZE = new Dimension(600, 400);
+	private static final Color BACKGROUND_COLOR = Color.BLACK;
+	private static final Color LINE_COLOR = Color.GREEN;
+
+	private Rectangle2D background = new Rectangle2D.Double();
+
+	// TODO: Add any additional fields that you need
+
+	/**
+	 * Constructs the component and initializes any fields.
+	 */
+	public LDComponent() {
+		setPreferredSize(SIZE);
+		// TODO: Initialize any fields that you added, if necessary
+
+		// TODO: Add an appropriate listener to this so that the user can click
+		// to draw lines, as described on the exam.  Don't forget to repaint().
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+
+		// paints background
+		this.background.setRect(0, 0, this.getWidth(), this.getHeight());
+		g2.setColor(BACKGROUND_COLOR);
+		g2.fill(this.background);
+
+		g2.setColor(LINE_COLOR);
+		// TODO: add code to render the lines
+	}
+
+}

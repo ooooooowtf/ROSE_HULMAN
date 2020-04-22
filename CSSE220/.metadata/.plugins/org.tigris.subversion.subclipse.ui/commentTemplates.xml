@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CommitCommentTemplates>	<CommitComment>Done.</CommitComment>
+	<CommitComment>Beginning Feature XXX.</CommitComment>
+	<CommitComment>Continuing work on Feature XXX.</CommitComment>
+	<CommitComment>Finished Feature XXX.</CommitComment>
+	<CommitComment>WARNING:  Some of the files in this commit contain known errors!</CommitComment>
+	<CommitComment>STUDENT: Please see NOTES FROM A GRADER herein.</CommitComment>
+	<CommitComment>INSTRUCTOR: Please look at where I wrote HELP.</CommitComment>
+	<CommitComment>Initial version.</CommitComment>
+	<CommitComment>Partially done.</CommitComment>
+</CommitCommentTemplates>

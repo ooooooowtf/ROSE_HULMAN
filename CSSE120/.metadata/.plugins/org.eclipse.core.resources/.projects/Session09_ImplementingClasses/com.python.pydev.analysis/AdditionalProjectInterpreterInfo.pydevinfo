@@ -1,0 +1,32 @@
+-- VERSION_4
+-- START DISKCACHE_2
+C:\EclipseWorkspaces\csse120\.metadata\.plugins\org.eclipse.core.resources\.projects\Session09_ImplementingClasses\com.python.pydev.analysis\v2_indexcache
+m1_Point|1490577960542993000|C:\EclipseWorkspaces\csse120\Session09_ImplementingClasses\src\m1_Point.py
+-- END DISKCACHE
+-- START DICTIONARY
+5
+3=Point.__init__
+4=Point.move_to
+2=Point
+5=Point.move_by
+1=m1_Point
+-- END DICTIONARY
+-- START TREE 1
+3
+mai|1|main!10@
+poi|1|Point!9@
+tes|11|test_move_to!10@test_repr!10@test_get_number_of_moves_made!10@test_get_distance_from!10@test_clone!10@test_halfway_to!10@test_init!10@test_get_distance_from_start!10@test_get_distance_traveled!10@test_move_by!10@test_closer_to!10@
+-- END TREE
+-- START TREE 2
+10
+__i|1|__init__!2&10@
+__r|1|__repr__!2&10@
+clo|2|closer_to!2&10@clone!2&10@
+dis|3|dis!3&11@dis!4&11@dis!5&11@
+get|4|get_number_of_moves_made!2&10@get_distance_traveled!2&10@get_distance_from!2&10@get_distance_from_start!2&10@
+hal|1|halfway_to!2&10@
+mov|5|move_by!2&10@move!3&11@move_to!2&10@move!4&11@move!5&11@
+sta|1|start!3&11@
+x|3|x!3&11@x!4&11@x!5&11@
+y|3|y!3&11@y!4&11@y!5&11@
+-- END TREE

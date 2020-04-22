@@ -1,0 +1,45 @@
+package ballStrikeCounter;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
+
+public class TrackerListener implements ActionListener {
+	JLabel label;
+	char a;
+	int outputBall = 0;
+	int outputStrike = 0;
+	int count = 0;
+
+	public TrackerListener(char ainput, JLabel label1) {
+		this.a = ainput;
+		this.label = label1;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (this.a == 'b') {
+			if (this.count == 4) {
+				this.outputBall = 0;
+				this.outputStrike = 0;
+				this.count = 0;
+			} else {
+				this.outputBall++;
+				this.count++;
+			}
+		}
+		if (this.a == 's') {
+			if (this.count == 3) {
+				this.outputBall = 0;
+				this.outputStrike = 0;
+				this.count = 0;
+			} else {
+				this.outputStrike++;
+				this.count++;
+			}
+		}
+		this.label.setText("<html>Balls: " + this.outputBall + "<br />Strikes: " + this.outputStrike + "</HTML>");
+	}
+
+}

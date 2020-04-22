@@ -1,0 +1,125 @@
+"""
+The Python Capstone Project.
+
+CSSE 120 - Introduction to Software Development.
+Team members: Jonathan Holst, Ben Lewer, Bill Yu.
+
+The primary author of this module is: Ben Lewer.
+"""
+# TODO: Put the names of ALL team members in the above where indicated.
+#       Put YOUR NAME in the above where indicated.
+
+import m0
+import m1
+import m3
+import m4
+
+import tkinter
+from tkinter import ttk
+import rosebot.standard_rosebot as rb
+
+
+def my_frame(root, dc):
+    """
+    Constructs and returns a   ttk.Frame   on the given root window.
+    The frame contains all of this module's widgets.
+    Does NOT   grid   the Frame, since the caller will do that.
+    Also sets up callbacks for this module's widgets.
+
+    The first argument is the  root  window (a tkinter.Tk object)
+    onto which the   ttk.Frame  returned from this function
+    will be placed.  The second argument is the shared DataContainer
+    object that is CONSTRUCTED in m0 but USED in m1, m2, m3 and m4.
+
+    Preconditions:
+      :type root: tkinter.Tk
+      :type dc:   m0.DataContainer
+    """
+
+    frame1 = ttk.Frame(root, padding=10)
+
+    label = ttk.Label(frame1, text="Press Button to display hours")
+    label.grid()
+
+    print_entry_button = ttk.Button(frame1, text='Print Hours')
+    print_entry_button['command'] = (lambda: display_all_team_hours(frame1, 3))
+    print_entry_button.grid()
+
+    # print_entry_button = ttk.Button(frame1, text='Compose Music')
+    # print_entry_button['command'] = (lambda: create_music())
+    # print_entry_button.grid()
+    return frame1
+
+
+def convert_to_string(teammate_number):
+
+    txt = open('..\process\hours-' + str(teammate_number) + '.txt', "r")
+    file_contents = txt.read()
+    txt.close()
+    return file_contents
+
+
+def display_hour_contents(number_of_teammates, frame):
+    """Feature 2:Displays all contents of text file. Updated using feature 5"""
+    for k in range(number_of_teammates):
+        k = k + 1
+        label = ttk.Label(frame, text=convert_to_string(k))
+        label.grid(sticky='w')
+
+
+def get_hours(frame, teammate_number):
+
+    file = convert_to_string(teammate_number)
+    split_string = file.split('\n')
+    total = 0
+    sprint1_total = 0
+    sprint2_total = 0
+    sprint3_total = 0
+
+    label = ttk.Label(frame, text='M' + str(teammate_number) + ' HOURS')
+    label.grid()
+
+    for k in range(len(split_string)):
+        hours, sprint, description = split_string[k].split('-')
+        total = total + float(hours)
+
+        if sprint[2] == "1":
+            sprint1_total = sprint1_total + float(hours)
+
+        elif sprint[2] == "2":
+            sprint2_total = sprint2_total + float(hours)
+
+        elif sprint[2] == str(3):
+            sprint3_total = sprint3_total + float(hours)
+
+    label = ttk.Label(frame, text='Sprint 1: ' + str(sprint1_total))
+    label.grid(sticky='e')
+
+    label = ttk.Label(frame, text='Sprint 2: ' + str(sprint2_total))
+    label.grid(sticky='e')
+    label = ttk.Label(frame, text='Sprint 3: ' + str(sprint3_total))
+    label.grid(sticky='e')
+
+    label = ttk.Label(frame, text='Total hours: ' + str(total))
+    label.grid(stick='e')
+
+
+def display_all_team_hours(frame, number_of_teammates):
+
+    for k in range(number_of_teammates):
+        get_hours(frame, k + 1)
+
+
+# def create_music(frame):
+# Middle C = 40
+# robot.buzzer.play_tone(10)
+ #   time.sleep(1)
+ #   robot.buzzer.stop()
+
+
+# ----------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+# ----------------------------------------------------------------------
+if __name__ == '__main__':
+    m0.main()

@@ -1,0 +1,386 @@
+"""
+The Python Capstone Project.
+
+CSSE 120 - Introduction to Software Development.
+Team members: Jonathan Holst, Ben Lewer, and Bill Yu.
+
+The primary author of this module is: Jonathan Holst.
+"""
+# DONE: Put the names of ALL team members in the above where indicated.
+#       Put YOUR NAME in the above where indicated.
+
+import m0
+import m2
+import m3
+import m4
+
+import tkinter
+from tkinter import ttk
+import rosebot.standard_rosebot as rb
+import time
+import math
+
+
+def my_frame(root, dc):
+    """
+    Constructs and returns a   ttk.Frame   on the given root window.
+    The frame contains all of this module's widgets.
+    Does NOT   grid   the Frame, since the caller will do that.
+    Also sets up callbacks for this module's widgets.
+
+    The first argument is the  root  window (a tkinter.Tk object)
+    onto which the   ttk.Frame  returned from this function
+    will be placed.  The second argument is the shared DataContainer
+    object that is CONSTRUCTED in m0 but USED in m1, m2, m3 and m4.
+
+    Preconditions:
+      :type root: tkinter.Tk
+      :type dc:   m0.DataContainer
+    """
+
+    frame = ttk.Frame(root, padding=10)
+
+    # Speed entry box
+    speed_label_box = LabelBox('Wheel Speed (cm/s)\nMax 95 cm/s', frame)
+    speed_label_box.grid()
+    dc._speed_entrybox = speed_label_box.entrybox
+
+    # Extra space
+    ttk.Label(frame, text='').grid()
+
+    # Move (for time) entry box and button
+    move_for_time_label = ttk.Label(frame, text='Move for time (s)')
+    move_for_time_label.grid()
+
+    move_for_time_leb = LabelEntryButton(frame, 'Time', 'Move')
+    move_for_time_leb.button['command'] = lambda: move_for_time(dc)
+    move_for_time_leb.grid()
+    dc._move_time_entrybox = move_for_time_leb.entrybox
+
+    # Extra space
+    ttk.Label(frame, text='').grid()
+
+    # Move (for distance) entry boxes and buttons
+    move_for_distance_label = ttk.Label(frame, text='Move for distance (cm)')
+    move_for_distance_label.grid()
+
+    move_bb_pid_frame = ttk.Frame(frame, padding=10)
+    move_distance_bb_leb = LabelEntryButton(frame, 'Bang-Bang', 'Move',
+                                            subframe=move_bb_pid_frame)
+    move_distance_bb_leb.button['command'] = lambda: move_distance_bb(dc)
+    move_distance_pid_leb = LabelEntryButton(frame, 'PID', 'Move',
+                                             subframe=move_bb_pid_frame)
+    move_distance_pid_leb.button['command'] = lambda: move_distance_pid(dc)
+    move_bb_pid_frame.grid()
+    move_distance_bb_leb.grid(0)
+    move_distance_pid_leb.grid(1)
+    dc._move_distance_bb_entrybox = move_distance_bb_leb.entrybox
+    dc._move_distance_pid_entrybox = move_distance_pid_leb.entrybox
+
+    # Extra space
+    ttk.Label(frame, text='').grid()
+
+    # Bind and unbind buttons
+    wasd_label = ttk.Label(frame, text='WASD Movement Controls')
+    wasd_label.grid()
+
+    wasd_frame = ttk.Frame(frame, padding=10)
+    bind_button = ttk.Button(wasd_frame, text='Bind')
+    unbind_button = ttk.Button(wasd_frame, text='Unbind')
+    bind_button['command'] = lambda: bind_wasd(dc)
+    unbind_button['command'] = lambda: unbind_wasd(dc)
+    wasd_frame.grid()
+    bind_button.grid(row=0, column=0)
+    unbind_button.grid(row=0, column=1)
+
+    return frame
+
+
+def move_for_time(dc):
+    """
+    Takes the data container, a speed between -256 and 256, and a time,
+    and moves the robot straight at the given speed for the given time.
+    """
+    forward(dc)
+    time.sleep(get_move_time(dc))
+    stop_moving(dc)
+
+
+def get_speed(dc):
+    """
+    Returns the rounded integer entered in the speed entry box in
+    ticks per second.
+    """
+    raw = float(dc._speed_entrybox.get())
+    if raw > 0:
+        return int(round((raw + 5) * 2.5))
+    if raw < 0:
+        return int(round((raw - 5) * 2.5))
+    else:
+        return 0
+
+
+def get_move_time(dc):
+    """
+    Returns the floating point number entered in the time entry box
+    in seconds.
+    """
+    return float(dc._move_time_entrybox.get())
+
+
+def get_move_distance_bb(dc):
+    """
+    Returns the floating point number entered in the bang-bang move
+    distance entry box in ticks.
+    """
+    return int(round(float(dc._move_distance_bb_entrybox.get()) * 9.25))
+
+
+def get_move_distance_pid(dc):
+    """
+    Returns the floating point number entered in the PID move distance
+    entry box in ticks.
+    """
+    return int(round(float(dc._move_distance_pid_entrybox.get()) * 9.25))
+
+
+def forward(dc):
+    """
+    Moves the robot forward at the entry box's speed.
+    """
+    speed = get_speed(dc)
+    dc.angrybot.motor_controller.drive_pwm(math.ceil(speed * .75), speed)
+    print('forward')
+
+
+def backward(dc):
+    """
+    Moves the robot backward at the entry box's speed.
+    """
+    speed = get_speed(dc)
+    dc.angrybot.motor_controller.drive_pwm(-math.ceil(speed * .75), -speed)
+    print('backward')
+
+
+def turn_left(dc):
+    """
+    Turns the robot left at the entry box's speed.
+    """
+    speed = get_speed(dc)
+    dc.angrybot.motor_controller.drive_pwm(-math.ceil(speed * .75), speed)
+    print('turn left')
+
+
+def turn_right(dc):
+    """
+    Turns the robot right at the entry box's speed.
+    """
+    speed = get_speed(dc)
+    dc.angrybot.motor_controller.drive_pwm(math.ceil(speed * .75), -speed)
+    print('turn right')
+
+
+def stop_moving(dc):
+    """
+    Stops the robot's motors.
+    """
+    dc.angrybot.motor_controller.stop()
+    print('stop')
+
+
+def clamp(n, minn, maxn):
+    """
+    Limits n to numbers within (minn, maxn). Returns n if it
+    is within the range, but returns minn or maxn if it goes outside
+    of the range.
+    """
+    return max(min(n, maxn), minn)
+
+
+def bind_wasd(dc):
+    """
+    Binds WASD keys to robot movement functions.
+    """
+    dc.root.bind_all('<w>', lambda _: forward(dc))
+    dc.root.bind_all('<a>', lambda _: turn_left(dc))
+    dc.root.bind_all('<s>', lambda _: backward(dc))
+    dc.root.bind_all('<d>', lambda _: turn_right(dc))
+    dc.root.bind_all('<KeyRelease-w>', lambda _: stop_moving(dc))
+    dc.root.bind_all('<KeyRelease-a>', lambda _: stop_moving(dc))
+    dc.root.bind_all('<KeyRelease-s>', lambda _: stop_moving(dc))
+    dc.root.bind_all('<KeyRelease-d>', lambda _: stop_moving(dc))
+
+
+def unbind_wasd(dc):
+    """
+    Unbinds WASD keys.
+    """
+    dc.root.unbind_all('<w>')
+    dc.root.unbind_all('<a>')
+    dc.root.unbind_all('<s>')
+    dc.root.unbind_all('<d>')
+    dc.root.unbind_all('<KeyRelease-w>')
+    dc.root.unbind_all('<KeyRelease-a>')
+    dc.root.unbind_all('<KeyRelease-s>')
+    dc.root.unbind_all('<KeyRelease-d>')
+
+
+def move_distance_bb(dc):
+    """
+    Moves the robot forward a distance using bang-bang control.
+    """
+    speed = clamp(get_speed(dc), 0, 150)
+    distance = get_move_distance_bb(dc)
+
+    forward(dc)
+    dc.angrybot.sensor_reader.left_encoder.reset()
+    dc.angrybot.sensor_reader.right_encoder.reset()
+
+    while True:
+        ticks_l = dc.angrybot.sensor_reader.left_encoder.get_ticks()
+        ticks_r = dc.angrybot.sensor_reader.right_encoder.get_ticks()
+
+        if ticks_l < ticks_r:
+            dc.angrybot.motor_controller.drive_pwm(speed,
+                                                   int(round(speed * .66)))
+        else:
+            dc.angrybot.motor_controller.drive_pwm(speed,
+                                                   int(round(speed * 1.5)))
+
+        if ticks_l >= distance:
+            break
+
+    stop_moving(dc)
+    print('Move (Bang-Bang)')
+
+
+def move_distance_pid(dc):
+    """
+    Moves the robot forward a distance using PID control.
+    """
+    speed = clamp(get_speed(dc), 0, 150)
+    distance = get_move_distance_pid(dc)
+    k = 1
+
+    forward(dc)
+    dc.angrybot.sensor_reader.left_encoder.reset()
+    dc.angrybot.sensor_reader.right_encoder.reset()
+
+    while True:
+        ticks_l = dc.angrybot.sensor_reader.left_encoder.get_ticks()
+        ticks_r = dc.angrybot.sensor_reader.right_encoder.get_ticks()
+        diff = ticks_l - ticks_r
+        dc.angrybot.motor_controller.drive_pwm(speed,
+                                               int(round(clamp(speed + diff *
+                                                               k, 0, 255))))
+        if distance <= ticks_l:
+            break
+
+    stop_moving(dc)
+    print('Move (PID)')
+
+
+def turn_left_degrees(theta, dc):
+    """
+    Turns the robot left at the entry box's speed for a specified
+    number of degrees.
+    """
+    speed = 50
+    k = 10
+    ticks = theta * k
+
+    dc.angrybot.sensor_reader.left_encoder.reset()
+    dc.angrybot.motor_controller.drive_pwm(-speed, speed)
+    while True:
+        ticks_l = dc.angrybot.sensor_reader.left_encoder.get_ticks()
+        if ticks <= ticks_l:
+            break
+
+    stop_moving(dc)
+    print('turn left')
+
+
+def turn_right_degrees(theta, dc):
+    """
+    Turns the robot right at the entry box's speed for a specified
+    number of degrees.
+    """
+    speed = 50
+    k = 10
+    ticks = theta * k
+
+    dc.angrybot.sensor_reader.left_encoder.reset()
+    dc.angrybot.motor_controller.drive_pwm(-speed, speed)
+    while True:
+        ticks_l = dc.angrybot.sensor_reader.left_encoder.get_ticks()
+        if ticks <= ticks_l:
+            break
+
+    stop_moving(dc)
+    print('turn right')
+
+
+class LabelBox(object):
+    """
+    Creates a label with an entry box next to it.
+    Enter the label string, the frame you want the label box
+    to be attached to, and optionally a width of the entry box.
+    grid() will attach the LabelBox to the frame.
+    """
+    def __init__(self, label, frame, width=5):
+
+        self.subframe = ttk.Frame(frame, padding=10)
+        self.label = ttk.Label(self.subframe, text=label)
+        self.entrybox = ttk.Entry(self.subframe, width=width)
+
+    def grid(self, row=0):
+
+        self.subframe.grid()
+        self.label.grid(row=row, column=0, padx=5)
+        self.entrybox.grid(row=row, column=1,)
+
+    def get(self):
+
+        contents = self.entrybox.get()
+        return contents
+
+
+class LabelEntryButton(object):
+    """
+    Creates a label with an entry box and a button on a horizontal
+    grid. Enter the frame to place it on, a string for the label,
+    a string for the button, and optionally a subframe (if you want
+    to grid multiple LabelEntryButtons next to each other) and a
+    width for the entry box. grid() will attach the LabelBox to the
+    frame on the row entered.
+    NOTE: Before gridding, attach a function to the button.
+    """
+    def __init__(self, frame, label_str, button_str, subframe=None, width=5):
+
+        if subframe:
+            self.subframe = subframe
+        else:
+            self.subframe = ttk.Frame(frame, padding=10)
+        self.label = ttk.Label(self.subframe, text=label_str)
+        self.entrybox = ttk.Entry(self.subframe, width=width)
+        self.button = ttk.Button(self.subframe, text=button_str)
+
+    def grid(self, row=0):
+
+        self.subframe.grid()
+        self.label.grid(row=row, column=0,)
+        self.entrybox.grid(row=row, column=1, padx=5)
+        self.button.grid(row=row, column=2)
+
+    def get(self):
+
+        contents = self.entrybox.get()
+        return contents
+
+
+# ----------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+# ----------------------------------------------------------------------
+if __name__ == '__main__':
+    m0.main()

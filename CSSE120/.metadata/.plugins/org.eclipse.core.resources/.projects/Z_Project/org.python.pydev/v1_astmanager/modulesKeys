@@ -1,0 +1,15 @@
+MODULES_MANAGER_V2
+m0|C:\EclipseWorkspaces\csse120\Z_Project\src\m0.py
+m1|C:\EclipseWorkspaces\csse120\Z_Project\src\m1.py
+m2|C:\EclipseWorkspaces\csse120\Z_Project\src\m2.py
+m3|C:\EclipseWorkspaces\csse120\Z_Project\src\m3.py
+m4|C:\EclipseWorkspaces\csse120\Z_Project\src\m4.py
+m99_camera_test|C:\EclipseWorkspaces\csse120\Z_Project\src\m99_camera_test.py
+m99_robot_example|C:\EclipseWorkspaces\csse120\Z_Project\src\m99_robot_example.py
+rosebot.__init__|C:\EclipseWorkspaces\csse120\Z_Project\src\rosebot\__init__.py
+rosebot.command|C:\EclipseWorkspaces\csse120\Z_Project\src\rosebot\command.py
+rosebot.communicator|C:\EclipseWorkspaces\csse120\Z_Project\src\rosebot\communicator.py
+rosebot.faux_rosebot|C:\EclipseWorkspaces\csse120\Z_Project\src\rosebot\faux_rosebot.py
+rosebot.serial_communicator|C:\EclipseWorkspaces\csse120\Z_Project\src\rosebot\serial_communicator.py
+rosebot.socket_communicator|C:\EclipseWorkspaces\csse120\Z_Project\src\rosebot\socket_communicator.py
+rosebot.standard_rosebot|C:\EclipseWorkspaces\csse120\Z_Project\src\rosebot\standard_rosebot.py

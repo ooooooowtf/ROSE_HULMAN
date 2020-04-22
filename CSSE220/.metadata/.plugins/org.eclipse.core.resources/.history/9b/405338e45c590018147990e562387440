@@ -1,0 +1,70 @@
+//
+//                       _oo0oo_
+//                      o8888888o
+//                      88" . "88
+//                      (| -_- |)
+//                      0\  =  /0
+//                    ___/`---'\___
+//                  .' \\|     |// '.
+//                 / \\|||  :  |||// \
+//                / _||||| -:- |||||- \
+//               |   | \\\  -  /// |   |
+//               | \_|  ''\---/''  |_/ |
+//               \  .-\__  '-'  ___/-. /
+//             ___'. .'  /--.--\  `. .'___
+//          ."" '<  `.___\_<|>_/___.' >' "".
+//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+//         \  \ `_.   \_ __\ /__ _/   .-` /  /
+//     =====`-.____`.___ \_____/___.-`___.-'=====
+//                       `=---='
+//
+//
+//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+//
+
+public class QuickSort<T extends Comparable<? super T>> {
+	private int size;
+	private T[] data;
+	
+	
+	
+	public static void quickSort(int[] array, int low, int high){
+		if (array == null || array.length == 0)
+			return;
+ 
+		if (low >= high)
+			return;
+		
+		int middle = low + (high - low) / 2;
+		int pivot = array[middle];
+		int i= low+1;
+		int j = high;
+		while(true){
+			while(array[i]<array[pivot]){
+				i++;
+			}
+			while(array[j]>array[pivot]){
+				j++;
+			}
+			if(i>=j){
+				break;
+			}
+			swap(array,i,j);
+		}
+		
+		if (low < j)
+			quickSort(array, low, j);
+ 
+		if (high > i)
+			quickSort(array, i, high);
+	}
+
+	private static void swap(int[] array, int i, int j) {
+		// TODO Auto-generated method stub.
+		int temp = array[i];
+		array[i]= array[j];
+		array[j]= temp;	
+	}
+	
+}

@@ -1,0 +1,148 @@
+"""
+An example to show the most common robot actions. 
+Author:  David Mutchler, May 2017.
+"""
+
+import rosebot.standard_rosebot as rb
+import time
+
+
+def main():
+    """ Calls the   TEST   functions in this module. """
+
+    # ------------------------------------------------------------------
+    # This (below) is how you CONSTRUCT a RoseBot.
+    #   TODO: Try the DOT trick to see that a Rosebot has a:
+    #     buzzer
+    #     camera
+    #     connector (for CONNECTING to a physical robot)
+    #     led (teeny light built into the Arduino labeled D13 LED)
+    #     motor_controller (for making the robot move)
+    #     sensor_reader (for getting sensor readings)
+    #   ALL robot actions available to you use one of the above.
+    # ------------------------------------------------------------------
+    robot = rb.RoseBot()
+
+    # ------------------------------------------------------------------
+    # This (below) is how you CONNECT to a physical RoseBot.
+    # You can connect WIRED or WIRELESS.
+    #   TODO: Try the DOT trick on   robot.connector
+    #     to see what a Connector can do.
+    #
+    #   IMPORTANT:  A teeny switch under the WiFLy card controls this.
+    #   Set the switch:
+    #     -- toward the FRONT of the robot for WIRELESS
+    #     -- toward the REAR of the robot for WIRED
+    #
+    #   IMPORTANT:
+    #      If WIRED, you must supply the appropriate COM PORT.
+    #      If WIRELESS, you must supply the number on the WiFly card.
+    # ------------------------------------------------------------------
+
+    print('When you connect to a robot, the LED blinks.')
+    print('Count the number of blinks to know the firmware version.')
+    print('When you are ready to connect to the robot,')
+    print('press the ENTER (RETURN) key (and watch the LED) to continue:')
+    input()
+
+    # Connect WIRED (use the COM PORT per YOUR computer):
+    port = 'COM6'
+
+    robot.connector.connect_wired(port)
+
+#     # Connect WIRELESS (use the R-number on the WiFly card):
+#     url = 'r25' # The rest of the URL is supplied for you.
+#     robot.connector.connect_wireless(url)
+
+    # ------------------------------------------------------------------
+    # This (below) is how you make a RoseBot turn its LED on/off.
+    #   TODO: Try the DOT trick on   robot.led
+    #     to see what an LED can do.
+    # ------------------------------------------------------------------
+
+    print('When you are ready to watch the LED turn off, then on, then off,')
+    print('press the ENTER (RETURN) key (and watch the LED) to continue:')
+    input()
+
+    # Turn LED off and on:
+    robot.led.turn_off()
+    time.sleep(1)
+
+    robot.led.turn_on()
+    time.sleep(0.5)
+
+    robot.led.turn_off()
+
+    # ------------------------------------------------------------------
+    # This (below) is how you make a RoseBot make noises.
+    #   TODO: Try the DOT trick on   robot.buzzer
+    #     to see what a Buzzer can do.
+    # ------------------------------------------------------------------
+
+    print('When you are ready to hear the robot make noises,')
+    print('press the ENTER (RETURN) key (and listen) to continue:')
+    input()
+
+    # Play a low tone for 1 second:
+    robot.buzzer.play_tone(10)
+    time.sleep(1)
+    robot.buzzer.stop()
+
+    time.sleep(2)
+
+    # Play a higher tone for 0.5 seconds:
+    robot.buzzer.play_tone(56)
+    time.sleep(0.5)
+    robot.buzzer.stop()
+
+    # ------------------------------------------------------------------
+    # This (below) is how you make a RoseBot move.
+    #   TODO: Try the DOT trick on   robot.motor_controller.
+    #     The  drive_pwm  and   stop  methods are the key methods.
+    # ------------------------------------------------------------------
+
+    print('When you are ready to watch the robot move (ON THE GROUND),')
+    print(
+        'press the ENTER (RETURN) key (and watch the robot move) to continue:')
+    input()
+
+    # Move at FULL power for 2 seconds:
+
+    robot.motor_controller.drive_pwm(100, 100)
+    time.sleep(2)  # Keep going for 2 seconds
+    robot.motor_controller.stop()
+
+    # ------------------------------------------------------------------
+    # This (below) is how you make a RoseBot get a sensor reading.
+    #   TODO: Try the DOT trick on   robot.sensor_reader
+    #     to see what sensors a SensorReader has.
+    #     Each has a READ method.
+    # ------------------------------------------------------------------
+
+    print('When you are ready to do a sensor reading,')
+    print(
+        'press the ENTER (RETURN) key (and see the console output) to continue:')
+    input()
+
+    # Get and display sensor values:
+    left_bump = robot.sensor_reader.left_bump_sensor.read()
+    right_proximity = robot.sensor_reader.right_proximity_sensor.read()
+    middle_reflectance = robot.sensor_reader.middle_reflectance_sensor.read()
+
+    print('Sensor values:')
+    print(left_bump, right_proximity, middle_reflectance)
+
+    # ------------------------------------------------------------------
+    # This (below) is how you turn off a RoseBot cleanly.
+    #   IMPORTANT: Do a DISCONNECT at the end of each run!
+    # ------------------------------------------------------------------
+
+    # Disconnect:
+    robot.connector.disconnect()
+
+#-----------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+#-----------------------------------------------------------------------
+if __name__ == '__main__':
+    main()

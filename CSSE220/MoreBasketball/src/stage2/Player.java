@@ -1,0 +1,101 @@
+package stage2;
+
+import java.util.HashMap;
+
+public class Player {
+	public String name;
+	public double accuracy;
+	public HashMap<Contest, String> performancesMap;
+
+	public int maxStreak = 100000;
+	public double maxPercentage = -1;
+
+	public String maxStreakMatch = "";
+	public String maxPercentageMatch = "";
+
+	public Player(String nam, double accu) {
+		this.setName(nam);
+		this.setAccuracy(accu);
+		this.performancesMap = new HashMap<>();
+	}
+
+	public String getRawData(Contest con1) {
+		String output =this.getPerformance(con1);
+		return output;
+	}
+
+	public void addPerformance(Contest cont, String result) {
+		this.performancesMap.put(cont, result);
+	}
+
+	public String getPerformance(Contest cont) {
+		return this.performancesMap.get(cont);
+	}
+
+	public int getPerformanceSize(Contest cont) {
+		if( this.performancesMap.get(cont) == null){
+			return 0;
+		}
+		return this.performancesMap.get(cont).length();
+	}
+
+	public int getHitStreak(Contest con1) {
+		int count = 0;
+		int maxc = 0;
+		for (int i = 0; i < this.getPerformanceSize(con1); i++) {
+			char c = this.getPerformance(con1).charAt(i);
+			if (c == 'X') {
+				count++;
+				if (count > maxc) {
+					maxc = count;
+				}
+			} else {
+				count = 0;
+			}
+		}
+//		if (maxc < this.maxStreak) {
+//			this.maxStreak = maxc;
+//			this.maxStreakMatch = con1.getTitle();
+//		}
+		return maxc;
+	}
+
+	public double getPercentage(Contest con1) {
+		double j =0.0;
+		for (int i = 0; i < this.getPerformanceSize(con1); i++) {
+			if (this.getPerformance(con1).charAt(i) == 'X') {
+				j++;
+			}
+		}
+		double percentage = 1.0*j / this.getPerformanceSize(con1);
+		if (percentage > this.maxPercentage) {
+			this.maxPercentage = percentage;
+			this.maxPercentageMatch = con1.getTitle();
+		}
+		return j / this.getPerformanceSize(con1);
+	}
+
+	public String returnBestStreakContestName() {
+		return this.maxStreakMatch;
+	}
+
+	public String returnBestPercentageContestName() {
+		return this.maxPercentageMatch;
+	}
+
+	public void setName(String name1) {
+		this.name = name1;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setAccuracy(double accurac1) {
+		this.accuracy = accurac1;
+	}
+
+	public double getAccuracy() {
+		return this.accuracy;
+	}
+}

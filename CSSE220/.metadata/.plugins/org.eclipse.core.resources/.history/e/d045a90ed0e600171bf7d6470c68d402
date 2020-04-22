@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>13</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>78</x>
+      <y>325</y>
+      <w>273</w>
+      <h>195</h>
+    </coordinates>
+    <panel_attributes>BasketballMain
+--
+player1
+contest1
+PlayerStatistics1
+--
+PlayerStatistics1.percentage()
+PlayerStatistics1.shotinRow()
+PlayerStatistics1.hitnMiss()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>507</x>
+      <y>325</y>
+      <w>273</w>
+      <h>195</h>
+    </coordinates>
+    <panel_attributes>PlayerStatistics
+--
+player
+contest
+percentage
+performance
+--
+percentage()
+shotinRow()
+hitsnMiss()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>988</x>
+      <y>325</y>
+      <w>130</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>Player
+--
+name
+accruacy
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>988</x>
+      <y>442</y>
+      <w>130</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>Contest
+--
+title
+shots</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>338</x>
+      <y>416</y>
+      <w>195</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>767</x>
+      <y>364</y>
+      <w>247</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>767</x>
+      <y>481</y>
+      <w>247</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1040</x>
+      <y>507</y>
+      <w>39</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1040</x>
+      <y>221</y>
+      <w>39</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>975</x>
+      <y>169</y>
+      <w>156</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>Players
+--
+ArrayList&lt;Player&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>962</x>
+      <y>637</y>
+      <w>169</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>Contests
+--
+ArrayList&lt;Contest&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

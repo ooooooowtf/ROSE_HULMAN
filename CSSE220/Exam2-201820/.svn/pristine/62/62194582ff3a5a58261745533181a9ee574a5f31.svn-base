@@ -1,0 +1,12 @@
+package polymorphism;
+
+public interface PetInterface {
+	void eatFood();
+	
+	boolean isEating();
+	
+	String getName();
+	
+	void doSpecialDogAbility();
+	
+}

@@ -1,0 +1,62 @@
+package ballworlds;
+
+import java.awt.Color;
+import java.awt.geom.Point2D;
+
+import util.Random;
+
+public class Mover extends Ball {
+	private Color color;
+	private int diameter;
+	private double xcenter;
+	private double ycenter;
+	private double velocityx;
+	private double velocityy;
+
+	public Mover(BallEnvironment world) {
+		super(world);
+		// TODO Auto-generated constructor stub.
+		this.diameter = 40;
+		this.xcenter = world.getCenterPoint().getX();
+		this.ycenter = world.getCenterPoint().getY();
+		this.velocityx = Random.randInterval(-3.0, 3.0);
+		this.velocityy = Random.randInterval(-3.0, 3.0);
+		int color1 = Random.randRange(0, 255);
+		int color2 = Random.randRange(0, 255);
+		int color3 = Random.randRange(0, 255);
+		this.color = new Color(color1, color2, color3);
+
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub.
+		return this.color;
+	}
+
+	@Override
+	public void updatePosition() {
+		// TODO Auto-generated method stub.
+		this.xcenter = this.xcenter + this.velocityx;
+		this.ycenter = this.ycenter + this.velocityy;
+		super.setCenterPoint(new Point2D.Double(this.xcenter, this.ycenter));
+	}
+
+	@Override
+	public void updateSize() {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public void updateColor() {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public double getDiameter() {
+		// TODO Auto-generated method stub.
+		return this.diameter;
+	}
+}

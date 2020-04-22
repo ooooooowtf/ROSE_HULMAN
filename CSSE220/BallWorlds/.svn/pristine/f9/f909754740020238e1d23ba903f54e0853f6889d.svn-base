@@ -1,0 +1,89 @@
+package ballworlds;
+
+import java.awt.Color;
+import java.awt.geom.Point2D;
+
+import util.Random;
+
+public class Exploder extends AbstractBouncer {
+	private int expand;
+	private int diameter;
+	private Color color;
+	private int finald;
+	private BallEnvironment world;
+
+	public Exploder(BallEnvironment world) {
+		super(world);
+		// TODO Auto-generated constructor stub.
+		this.expand = Random.randRange(2, 10);
+		this.diameter = 15;
+		this.world=world;
+		this.colorful();
+		this.finald = 15*this.expand;
+		
+	}
+	
+	public Exploder(BallEnvironment world, Point2D centerPoint) {
+		super(world,centerPoint);
+		this.expand = Random.randRange(2, 10);
+		this.diameter = 15;
+		this.world=world;
+		this.colorful();
+		this.finald = 15*this.expand;
+	}
+	
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub.
+		return this.color;
+	}
+
+	@Override
+	public void updatePosition() {
+		// TODO Auto-generated method stub.
+		super.setVelocity();
+		this.explode();
+	}
+
+	@Override
+	public void updateSize() {
+		// TODO Auto-generated method stub.
+		if (this.diameter<this.finald) {
+			this.diameter++;
+		}else{
+			this.diameter= this.finald;
+		}
+
+	}
+
+	@Override
+	public void updateColor() {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public double getDiameter() {
+		// TODO Auto-generated method stub.
+		return this.diameter;
+	}
+	
+	public void colorful(){
+		int color1 = Random.randRange(0, 255);
+		int color2 = Random.randRange(0, 255);
+		int color3 = Random.randRange(0, 255);
+		this.color = new Color(color1, color2, color3);
+	}
+	
+	public void explode(){
+		if(this.diameter==this.finald){
+			this.world.removeBall(this);
+			Point2D lastPos= new Point2D.Double(this.getCenterPoint().getX(), this.getCenterPoint().getY());
+			Exploder a = new Exploder(this.world,lastPos);
+			Exploder b = new Exploder(this.world,lastPos);
+			this.world.addBall(a);
+			this.world.addBall(b);
+		}
+	}
+
+}

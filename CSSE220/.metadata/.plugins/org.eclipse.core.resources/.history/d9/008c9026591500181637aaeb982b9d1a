@@ -1,0 +1,100 @@
+package lines;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
+import javax.swing.JComponent;
+
+/**
+ * This component uses a mouse listener to collect points and render lines
+ * between them.
+ * 
+ * @author Curt Clifton and <TODO: your name here>.
+ */
+public class LDComponent extends JComponent implements MouseListener {
+	private static final Dimension SIZE = new Dimension(600, 400);
+	private static final Color BACKGROUND_COLOR = Color.BLACK;
+	private static final Color LINE_COLOR = Color.GREEN;
+
+	private Rectangle2D background = new Rectangle2D.Double();
+
+	// TODO: Add any additional fields that you need
+	private ArrayList<Point2D> points;
+
+	/**
+	 * Constructs the component and initializes any fields.
+	 */
+	public LDComponent() {
+		setPreferredSize(SIZE);
+		// TODO: Initialize any fields that you added, if necessary
+		this.points = new ArrayList<>();
+		addMouseListener(this);
+		// TODO: Add an appropriate listener to this so that the user can click
+		// to draw lines, as described on the exam. Don't forget to repaint().
+
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+
+		// paints background
+		this.background.setRect(0, 0, this.getWidth(), this.getHeight());
+		g2.setColor(BACKGROUND_COLOR);
+		g2.fill(this.background);
+
+		g2.setColor(LINE_COLOR);
+		// TODO: add code to render the lines
+		if(this.points.size()>=2){
+		for (int i = 0; i < this.points.size()-1; i++) {
+			Line2D l = new Line2D.Double(points.get(i), points.get(i+1));
+			Line2D l1 = new Line2D.Double(points.get(this.points.size()-1), points.get(0));
+			g2.draw(l);
+			g2.draw(l1);
+		}}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent event) {
+		// TODO Auto-generated method stub.
+		if (event.getButton() == MouseEvent.BUTTON1) {
+			this.points.add(new Point2D.Double(event.getX(), event.getY()));
+			this.repaint();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub.
+
+	}
+
+}

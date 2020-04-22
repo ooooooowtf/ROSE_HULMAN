@@ -1,0 +1,105 @@
+"""
+Test 1, problem 2.
+
+Authors: David Mutchler, Dave Fisher, Valerie Galluzzi, Amanda Stouder,
+         their colleagues and Qishun Yu.  March 2017.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
+
+import rosegraphics as rg
+
+
+def main():
+    """ Calls the   TEST   functions in this module. """
+    test_problem2()
+
+
+def test_problem2():
+    """ Tests the   problem2   function. """
+    print()
+    print('--------------------------------------------------')
+    print('Testing the  problem2  function:')
+    print('  See the graphics windows that pop up.')
+    print('--------------------------------------------------')
+
+    # TWO tests on ONE win.
+    title = 'Tests 1 and 2 of problem2'
+    window = rg.RoseWindow(600, 250, title)
+
+    circ = rg.Circle(rg.Point(100, 50), 30)
+    circ.outline_thickness = 15
+    rect = rg.Rectangle(rg.Point(100, 120),
+                        rg.Point(200, 170))
+    rect.outline_color = 'blue'
+    rect.outline_thickness = 3
+    problem2(circ, rect, window)
+
+    window.continue_on_mouse_click()
+
+    circ = rg.Circle(rg.Point(500, 100), 80)
+    circ.fill_color = 'green'
+    rect = rg.Rectangle(rg.Point(300, 60),
+                        rg.Point(250, 200))
+    rect.fill_color = 'yellow'
+    problem2(circ, rect, window)
+
+    window.close_on_mouse_click()
+
+    # A third test on ANOTHER win.
+    title = 'Test 3 of problem2'
+    window = rg.RoseWindow(400, 300, title)
+
+    circ = rg.Circle(rg.Point(70, 175), 50)
+    rect = rg.Rectangle(rg.Point(200, 170), rg.Point(300, 120))
+    rect.outline_color = 'green'
+    rect.outline_thickness = 10
+
+    problem2(circ, rect, window)
+    window.close_on_mouse_click()
+
+
+def problem2(circ, rect, win):
+    """
+    See   problem2_pictures.pdf   for pictures that may help you
+    better understand the following specification:
+
+    What comes in:
+      -- An rg.Circle.
+      -- An rg.Rectangle.
+      -- An rg.RoseWindow.
+    What goes out:  Nothing (i.e., None).
+    Side effects:
+      -- Draws the given rg.Circle and rg.Rectangle
+           on the given rg.RoseWindow.
+      -- Draws an rg.Line:
+           -- from the center of the rg.Circle
+           -- to the center of the rg.Rectangle,
+           -- with the thickness of the rg.Line being the
+                outline thickness of the given rg.Rectangle
+           -- and the color of the rg.Line being the outline color
+                of the given rg.Circle.
+      Must render but   ** NOT close **   the win.
+
+    Type hints:
+      :type circ: rg.Circle
+      :type rect: rg.Rectangle
+      :type win:  rg.RoseWindow
+    """
+    # ------------------------------------------------------------------
+    # DONE: 2. Implement and test this function.
+    #          Tests have been written for you (above).
+    # ------------------------------------------------------------------
+    circ.attach_to(win)
+    rect.attach_to(win)
+
+    line = rg.Line(circ.center, rect.get_center())
+    line.thickness = rect.outline_thickness
+    line.color = circ.outline_color
+    line.attach_to(win)
+
+    win.render()
+
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()

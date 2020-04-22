@@ -1,0 +1,16 @@
+package stage1;
+
+import java.util.HashMap;
+
+public class Contests {
+	HashMap<String, Content> conts = new HashMap<>();
+
+	public Contests() {
+
+	}
+
+	public void addContest(Content con) {
+		conts.put(con.returnTitl(), con);
+	}
+
+}

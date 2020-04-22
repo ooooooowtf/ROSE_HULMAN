@@ -1,0 +1,95 @@
+package graphs;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+public class Chain<T> {
+	LinkedHashSet<T> chainItems;
+	T last;
+
+	public Chain() {
+		this.chainItems = new LinkedHashSet<>();
+	}
+
+	public Chain(LinkedHashSet<T> newchain, T last) {
+		this.chainItems = newchain;
+		this.last = last;
+	}
+	
+	public Chain<T> addLast(T item) {
+		if (this.chainItems.contains(item)) {
+			return this;
+		}
+		LinkedHashSet<T> newPath = (LinkedHashSet<T>) this.chainItems.clone();
+		newPath.add(item);
+		return new Chain<>(newPath,item);
+	}
+
+	public T getLast() {
+		return last;
+	}
+	
+	public boolean contains(T string) {
+		return this.chainItems.contains(string);
+	}
+	
+	public Iterator<T> iterator() {
+		return this.chainItems.iterator();
+	}
+	
+	public List<T> toList(){
+		ArrayList<T> toReturn = new ArrayList<>();
+		Iterator<T> iter = this.iterator();
+		while (iter.hasNext()) {
+			toReturn.add(iter.next());
+		}
+		return toReturn;
+	}
+//	private HashSet<T> chainItems;
+//
+//	public Chain() {
+//		this.chainItems = new LinkedHashSet<>();
+//
+//	}
+//
+//	public Chain addLast(T string) {
+//		Chain output = new Chain();
+//		output.chainItems.addAll(this.chainItems);
+//		output.chainItems.add(string);
+//		return output;
+//	}
+//
+//	public T getLast() {
+//		return (T) this.chainItems.toArray()[chainItems.size() - 1];
+//	}
+//
+//	public int length() {
+//		return this.chainItems.size();
+//	}
+//
+//	public boolean contains(T string) {
+//		return this.chainItems.contains(string);
+//	}
+//
+//	public Iterator<T> iterator() {
+//		return this.chainItems.iterator();
+//	}
+//
+//	public String toString() {
+//		return this.chainItems.toString();
+//	}
+//	
+//	public List<T> toList(){
+//		ArrayList<T> output = new ArrayList<>();
+//		Iterator<T> iter = this.iterator();
+//		while (iter.hasNext()) {
+//			output.add(iter.next());
+//		}
+//		return output;
+//	}
+//	
+//	
+	
+}

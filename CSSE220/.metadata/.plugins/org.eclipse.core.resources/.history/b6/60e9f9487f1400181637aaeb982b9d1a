@@ -1,0 +1,5 @@
+package moveableRectangle;
+
+public class MouseMoveableRectangle extends MoveableRectangle {
+
+}

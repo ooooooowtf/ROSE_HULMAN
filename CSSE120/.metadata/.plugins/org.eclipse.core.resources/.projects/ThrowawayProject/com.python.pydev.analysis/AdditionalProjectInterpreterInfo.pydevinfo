@@ -1,0 +1,25 @@
+-- VERSION_4
+-- START DISKCACHE_2
+C:\EclipseWorkspaces\csse120\.metadata\.plugins\org.eclipse.core.resources\.projects\ThrowawayProject\com.python.pydev.analysis\v2_indexcache
+m0|1493931242943183000|C:\EclipseWorkspaces\csse120\ThrowawayProject\src\m0.py
+m1|1493931242947691000|C:\EclipseWorkspaces\csse120\ThrowawayProject\src\m1.py
+m2|1493931242951716000|C:\EclipseWorkspaces\csse120\ThrowawayProject\src\m2.py
+m3|1493931261369808000|C:\EclipseWorkspaces\csse120\ThrowawayProject\src\m3.py
+m4|1493929590346581000|C:\EclipseWorkspaces\csse120\ThrowawayProject\src\m4.py
+-- END DISKCACHE
+-- START DICTIONARY
+5
+1=m0
+2=m1
+3=m2
+4=m3
+5=m4
+-- END DICTIONARY
+-- START TREE 1
+2
+mai|1|main!10@
+my_|4|my_frame!18@my_frame!26@my_frame!34@my_frame!42@
+-- END TREE
+-- START TREE 2
+0
+-- END TREE

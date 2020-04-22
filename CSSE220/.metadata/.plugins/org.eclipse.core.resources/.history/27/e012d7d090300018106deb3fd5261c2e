@@ -1,0 +1,65 @@
+import java.util.Scanner;
+import java.util.Set;
+
+/**
+ * @author <<Eric and Bill>>
+ */
+public class Doublets {
+	private LinksInterface links;
+
+	public Doublets(LinksInterface links) {
+		this.links = links;
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Welcome to Doublets, a game of 'verbal torture.'");
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		Doublets doublet = new Doublets(new Links("../DoubletsData/english.cleaned.all.35.txt"));
+		while (true) {
+			String commandLine = scanner.nextLine();
+			Set<String> result = handleCommand(commandLine);
+			System.out.println(result.toString());
+		}
+	}
+
+	public Chain findChain(String start, String end, ChainManager manager) {
+		if (start.length() != end.length())
+			return null;
+		String wordToExpand = "";
+		if (manager.isEmpty()) {
+			Chain c = new Chain();
+			wordToExpand = start;
+			c.addLast(wordToExpand);
+			manager.add(c);
+			System.out.println(c.toString());
+		}
+
+		while (true) {
+			for (String word : links.getCandidates(wordToExpand)) {
+				System.out.println(word);
+				Chain c = new Chain();
+				if (!c.contains(word)) {
+					manager.add(manager.next().addLast(word));// Build on the current chain.
+				}
+	
+			}
+		}
+	}
+
+	/**
+	 * This method handles interacting with the user.
+	 * 
+	 * @param String
+	 */
+	private static Set<String> handleCommand(String command) {
+		Scanner input = new Scanner(command);
+
+		String word = input.next();
+		Set<String> toReturn = links.getCandidates(word);
+
+		input.close();
+		return toReturn;
+	}
+
+}

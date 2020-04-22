@@ -1,0 +1,355 @@
+"""
+Test 1, problem 1.
+
+Authors: David Mutchler, Dave Fisher, Valerie Galluzzi, Amanda Stouder,
+         their colleagues and Qishun Yu.  March 2017.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
+
+import time
+import sys
+
+
+def main():
+    """ Calls the   TEST   functions in this module. """
+    test_problem1a()
+    test_problem1b()
+
+
+# ----------------------------------------------------------------------
+# Students:
+#   Do NOT touch the   is_prime   and   largest_digit   functions below;
+#   they have no TODO.  Do NOT copy code from those functions.
+#
+#   Instead, ** CALL ** the functions as needed in the problems below.
+# ----------------------------------------------------------------------
+
+def is_prime(n):
+    """
+    What comes in:  An integer n >= 2.
+    What goes out:
+      -- Returns True if the given integer is prime,
+         else returns False.
+    Side effects:   None.
+    Examples:
+      -- is_prime(11) returns  True
+      -- is_prime(12) returns  False
+      -- is_prime(2)  returns  True
+    Note: The algorithm used here is simple and clear but slow.
+    """
+    for k in range(2, (n // 2) + 1):
+        if n % k == 0:
+            return False
+
+    return True
+
+
+def largest_digit(num):
+    """
+    What comes in:  A nonnegative integer num.
+    What goes out:
+      Returns the largest digit in the number.
+    Side effects: None.
+    Examples:
+      -- 496 returns 9
+      -- 18 returns 8
+      -- 2 returns 2
+    Type hints:
+      :type num: int
+    """
+    largest_string = '0'
+    for digit_string in str(num):
+        if digit_string > largest_string:
+            largest_string = digit_string
+
+    return int(largest_string)
+
+
+# ----------------------------------------------------------------------
+# Students:
+#   Do NOT touch the   print_success_or_failure_message   function
+#   below - it has no TODO.  Our testing code uses it to print a very
+#   visible message (in RED) when your code FAILS a test.
+# ----------------------------------------------------------------------
+def print_success_or_failure_message(expected, actual, flush_time=0.2):
+    """ Prints a message indicating success or failure of the test. """
+    if expected == actual:
+        # Test passed:
+        print("   Test passed SUCCESSFULLY!")
+
+    elif actual == None:
+        # Test failed (because the function is not yet implemented):
+        print('   Test FAILED, presumably because the function'
+              + ' is not yet implemented')
+
+    else:
+        # Test failed (wrong number returned).
+        # Prints a message onto stderr, hence in RED.
+        time.sleep(flush_time)
+        print('  *** FAILED the above test. ***',
+              file=sys.stderr, flush=True)
+        time.sleep(flush_time)
+
+
+# ----------------------------------------------------------------------
+# The problems begin here.
+# ----------------------------------------------------------------------
+def test_problem1a():
+    print()
+    print('--------------------------------------------------')
+    print('Testing the   problem1a   function:')
+    print('--------------------------------------------------')
+
+    # Test 1:
+    expected = (2 + 3 + 5 + 7)
+    actual = problem1a(2, 10)
+    print()
+    print('Test 1 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 2:
+    expected = (2 + 3 + 5 + 7 + 11)
+    actual = problem1a(2, 11)
+    print()
+    print('Test 2 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 3:
+    expected = 0
+    actual = problem1a(16, 16)
+    print()
+    print('Test 3 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 4:
+    expected = 17
+    actual = problem1a(16, 17)
+    print()
+    print('Test 4 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 5:
+    expected = 17
+    actual = problem1a(17, 17)
+    print()
+    print('Test 5 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 6:
+    expected = 316773
+    actual = problem1a(2000, 3000)
+    print()
+    print('Test 6 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 7:
+    expected = 5736396
+    actual = problem1a(2, 10000)
+    print()
+    print('Test 7 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 8:
+    expected = 21095064
+    actual = problem1a(1000, 20000)
+    print()
+    print('Test 8 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 9:
+    expected = 21095064
+    actual = problem1a(1003, 20001)
+    print()
+    print('Test 9 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 10:
+    expected = 21095064
+    actual = problem1a(1009, 20001)
+    print()
+    print('Test 10 expected:', expected)
+    print('        actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+
+def problem1a(r, s):
+    """
+    What comes in:
+      -- Nonnegative integers r and s, with s >= r.
+    What goes out:
+       Returns the sum of all the prime numbers from r to s, inclusive.
+    Side effects: None
+    Examples:
+        TODO.
+
+    Type hints:
+      :type r: int
+      :type s: int
+    """
+    # ------------------------------------------------------------------
+    # DONE: 2. Implement and test this function.
+    #          Tests have been written for you (above).
+    ####################################################################
+    # IMPORTANT:
+    #    **  For full credit you must appropriately use (call)
+    #    **  the relevant function(s) that are DEFINED ABOVE.
+    ####################################################################
+    numsum = 0
+
+    for k in range(r, s + 1):
+        if is_prime(k) == True:
+            numsum = numsum + k
+
+    return numsum
+
+
+def test_problem1b():
+    print()
+    print('--------------------------------------------------')
+    print('Testing the   problem1b   function:')
+    print('--------------------------------------------------')
+
+    # Test 1:
+    expected = 7
+    actual = problem1b(10)
+    print()
+    print('Test 1 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 2:
+    expected = 8
+    actual = problem1b(11)
+    print()
+    print('Test 2 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 3:
+    expected = 4
+    actual = problem1b(16)
+    print()
+    print('Test 3 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 4:
+    expected = 8
+    actual = problem1b(17)
+    print()
+    print('Test 4 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 5:
+    expected = 8
+    actual = problem1b(18)
+    print()
+    print('Test 5 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 6:
+    expected = 9
+    actual = problem1b(3000)
+    print()
+    print('Test 6 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 7:
+    expected = 9
+    actual = problem1b(10000)
+    print()
+    print('Test 7 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 8:
+    expected = 9
+    actual = problem1b(20000)
+    print()
+    print('Test 8 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 9:
+    expected = 9
+    actual = problem1b(20001)
+    print()
+    print('Test 9 expected:', expected)
+    print('       actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 10:
+    expected = 9
+    actual = problem1b(20013)
+    print()
+    print('Test 10 expected:', expected)
+    print('        actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # ------------------------------------------------------------------
+    # DONE 3 (continued): Add your TWO additional tests here:
+    # ------------------------------------------------------------------
+
+    # Test 11:
+    expected = 5
+    actual = problem1b(3)
+    print()
+    print('Test 11 expected:', expected)
+    print('        actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+    # Test 12:
+    expected = 8
+    actual = problem1b(17)
+    print()
+    print('Test 12 expected:', expected)
+    print('        actual:  ', actual)
+    print_success_or_failure_message(expected, actual)
+
+
+def problem1b(s):
+    """
+    What comes in:
+      -- Integer s that is at least 2.
+    What goes out:
+       Returns the largest digit in TOTAL, where TOTAL is
+       the sum of all the prime numbers from 2 to s, inclusive.
+    Side effects: None
+    Examples:
+        TODO.
+
+    Type hints:
+      :type s: int
+    """
+    # ------------------------------------------------------------------
+    # DONE: 4. Implement and test this function.
+    #          Tests have been written for you (above).
+    ####################################################################
+    # IMPORTANT:
+    #    **  For full credit you must appropriately use (call)
+    #    **  the relevant function(s) that are DEFINED ABOVE.
+    ####################################################################
+
+    numsum = 0
+
+    for k in range(2, s + 1):
+        if is_prime(k) == True:
+            numsum = numsum + k
+
+    return largest_digit(numsum)
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()

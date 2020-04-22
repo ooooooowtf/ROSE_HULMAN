@@ -1,0 +1,198 @@
+"""
+The Python Capstone Project.
+
+CSSE 120 - Introduction to Software Development.
+Team members: Jonathan Holst, Ben Lewer, and Bill Yu.
+
+The primary author of this module is: Jonathan Holst.
+"""
+# DONE: Put the names of ALL team members in the above where indicated.
+#       Put YOUR NAME in the above where indicated.
+
+import m0
+import m2
+import m3
+import m4
+
+import tkinter
+from tkinter import ttk
+import rosebot.standard_rosebot as rb
+import time
+import math
+
+
+def my_frame(root, dc):
+    """
+    Constructs and returns a   ttk.Frame   on the given root window.
+    The frame contains all of this module's widgets.
+    Does NOT   grid   the Frame, since the caller will do that.
+    Also sets up callbacks for this module's widgets.
+
+    The first argument is the  root  window (a tkinter.Tk object)
+    onto which the   ttk.Frame  returned from this function
+    will be placed.  The second argument is the shared DataContainer
+    object that is CONSTRUCTED in m0 but USED in m1, m2, m3 and m4.
+
+    Preconditions:
+      :type root: tkinter.Tk
+      :type dc:   m0.DataContainer
+    """
+
+    frame = ttk.Frame(root, padding=10)
+
+    # Speed and time entry boxes
+    speed_label_box = LabelBox('Speed', frame)
+    dc._speed_entrybox = speed_label_box.entrybox
+
+    time_label_box = LabelBox('Time', frame)
+    dc._time_entrybox = time_label_box.entrybox
+
+    # Move (for time) button
+    move_run_button = ttk.Button(frame, text='Move')
+    move_run_button['command'] = lambda: move_for_time(dc)
+    move_run_button.grid()
+
+    # Extra space
+    ttk.Label(frame, text='').grid()
+
+    # Bind and unbind buttons
+    wasd_label = ttk.Label(frame, text='WASD Movement Controls')
+    wasd_label.grid()
+
+    wasd_frame = ttk.Frame(frame, padding=10)
+    bind_button = ttk.Button(wasd_frame, text='Bind')
+    unbind_button = ttk.Button(wasd_frame, text='Unbind')
+    bind_button['command'] = lambda: bind_wasd(dc)
+    unbind_button['command'] = lambda: unbind_wasd(dc)
+    wasd_frame.grid()
+    bind_button.grid(row=0, column=0)
+    unbind_button.grid(row=0, column=1)
+
+    return frame
+
+
+def move_for_time(dc):
+    """
+    Takes the data container, a speed between -100 and 100, and a time,
+    and moves the robot straight at the given speed for the given time.
+    """
+    forward(dc)
+    time.sleep(get_time(dc))
+    stop_moving(dc)
+
+
+def get_speed(dc):
+    """
+    Returns the integer entered in the speed entry box.
+    """
+    s = dc._speed_entrybox.get()
+    return int(s)
+
+
+def get_time(dc):
+    """
+    Returns the integer entered in the time entry box.
+    """
+    s = dc._time_entrybox.get()
+    return int(s)
+
+
+def forward(dc):
+    """
+    Moves the robot forward at the entry box's speed.
+    """
+    speed = get_speed(dc)
+    dc.angrybot.motor_controller.drive_pwm(math.ceil(speed * .75), speed)
+    # print('forward')
+
+
+def backward(dc):
+    """
+    Moves the robot backward at the entry box's speed.
+    """
+    speed = get_speed(dc)
+    dc.angrybot.motor_controller.drive_pwm(-math.ceil(speed * .75), -speed)
+    # print('backward')
+
+
+def turn_left(dc):
+    """
+    Turns the robot left at the entry box's speed.
+    """
+    speed = get_speed(dc)
+    dc.angrybot.motor_controller.drive_pwm(-math.ceil(speed * .75), speed)
+    # print('turn left')
+
+
+def turn_right(dc):
+    """
+    Turns the robot right at the entry box's speed.
+    """
+    speed = get_speed(dc)
+    dc.angrybot.motor_controller.drive_pwm(math.ceil(speed * .75), -speed)
+    # print('turn right')
+
+
+def stop_moving(dc):
+    """
+    Stops the robot's motors.
+    """
+    dc.angrybot.motor_controller.stop()
+    # print('stop')
+
+
+def bind_wasd(dc):
+    """
+    Binds WASD keys to robot movement functions.
+    """
+    dc.root.bind_all('<w>', lambda _: forward(dc))
+    dc.root.bind_all('<a>', lambda _: turn_left(dc))
+    dc.root.bind_all('<s>', lambda _: backward(dc))
+    dc.root.bind_all('<d>', lambda _: turn_right(dc))
+    dc.root.bind_all('<KeyRelease-w>', lambda _: stop_moving(dc))
+    dc.root.bind_all('<KeyRelease-a>', lambda _: stop_moving(dc))
+    dc.root.bind_all('<KeyRelease-s>', lambda _: stop_moving(dc))
+    dc.root.bind_all('<KeyRelease-d>', lambda _: stop_moving(dc))
+
+
+def unbind_wasd(dc):
+    """
+    Unbinds WASD keys.
+    """
+    dc.root.unbind_all('<w>')
+    dc.root.unbind_all('<a>')
+    dc.root.unbind_all('<s>')
+    dc.root.unbind_all('<d>')
+    dc.root.unbind_all('<KeyRelease-w>')
+    dc.root.unbind_all('<KeyRelease-a>')
+    dc.root.unbind_all('<KeyRelease-s>')
+    dc.root.unbind_all('<KeyRelease-d>')
+
+
+class LabelBox(object):
+    """
+    Creates a label with an entry box next to it.
+    Enter the label string, the frame you want the label box
+    to be attached to, and optionally a width of the entry box.
+    """
+    def __init__(self, label, frame, width=5):
+
+        self.subframe = ttk.Frame(frame, padding=10)
+        self.label = ttk.Label(self.subframe, text=label)
+        self.entrybox = ttk.Entry(self.subframe, width=width)
+        self.subframe.grid()
+        self.label.grid(row=0, column=0, sticky='w', ipadx=5)
+        self.entrybox.grid(row=0, column=1, sticky='e')
+
+    def get(self):
+
+        contents = self.entrybox.get()
+        return contents
+
+
+# ----------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+# ----------------------------------------------------------------------
+if __name__ == '__main__':
+    m0.main()

@@ -1,0 +1,68 @@
+package ballworlds;
+
+import java.awt.Color;
+import java.awt.geom.Point2D;
+
+import util.Random;
+
+/**
+ * A ball that bounces off the walls.
+ * 
+ * @author Curt Clifton. Created Jan 22, 2011.
+ */
+public abstract class AbstractBouncer extends Ball {
+	// nothing here... yet
+	private Color color;
+	private int diameter;
+	private double xcenter;
+	private double ycenter;
+	private double velocityx;
+	private double velocityy;
+	private double boundx;
+	private double boundy;
+	private double vx = 2;
+	private double vy = 2;
+
+	/**
+	 * Constructs a abstract bouncer in the given world.
+	 * 
+	 * @param world
+	 */
+	public AbstractBouncer(BallEnvironment world) {
+		super(world);
+		
+		xcenter = world.getCenterPoint().getX();
+		ycenter = world.getCenterPoint().getY();
+		velocityx = Random.randInterval(-3.0, 3.0);
+		velocityy = Random.randInterval(-3.0, 3.0);
+		boundx = world.getSize().getWidth();
+		boundy = world.getSize().getHeight();
+		int color1 = Random.randRange(0, 255);
+		int color2 = Random.randRange(0, 255);
+		int color3 = Random.randRange(0, 255);
+		this.color = new Color(color1, color2, color3);
+	}
+
+
+
+	@Override
+	public void updatePosition() {
+		// TODO Auto-generated method stub.
+
+		if (this.xcenter <= 0) {
+			vx = this.velocityx;
+		} else if (this.xcenter >= boundx) {
+			vx = -this.velocityx;
+		}
+		if (this.ycenter <= 0) {
+			vy = this.velocityy;
+		} else if (this.ycenter >= boundy) {
+			vy = -this.velocityy;
+		}
+
+		this.setCenterPoint(new Point2D.Double(xcenter + vx, ycenter + vy));
+	}
+	public void setPosition(){
+		
+	}
+}

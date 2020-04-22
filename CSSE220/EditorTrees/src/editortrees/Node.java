@@ -1,0 +1,643 @@
+package editortrees;
+
+import java.util.Stack;
+
+// A node in a height-balanced binary tree with rank.
+// Except for the NULL_NODE (if you choose to use one), one node cannot
+// belong to two different trees.
+// comments writer: Shou
+
+public class Node {
+	final static Node NULL_NODE = new Node();
+	final static int END = -9023;
+	private static final int FRONT = -204000;
+
+	enum Code {
+		SAME, LEFT, RIGHT;
+		// Used in the displayer and debug string
+		public String toString() {
+			switch (this) {
+			case LEFT:
+				return "/";
+			case SAME:
+				return "=";
+			case RIGHT:
+				return "\\";
+			default:
+				throw new IllegalStateException();
+			}
+		}
+
+		public int toInt() {
+			switch (this) {
+			case LEFT:
+				return -1;
+			case SAME:
+				return 0;
+			case RIGHT:
+				return 1;
+			default:
+				throw new IllegalStateException();
+			}
+
+		}
+	}
+
+	// The fields would normally be private, but for the purposes of this class,
+	// we want to be able to test the results of the algorithms in addition to
+	// the "publicly visible" effects
+
+	Character element;
+	Node left, right; // subtrees
+	int rank; // inorder position of this node within its own subtree.
+	Code balance;
+
+	/**
+	 * NULL_NODE constructor
+	 */
+	public Node() {
+		this.element = null;
+		this.left = NULL_NODE;
+		this.right = NULL_NODE;
+		this.balance = Code.SAME;
+		this.rank = 0;
+	}
+
+	/**
+	 * Normal constructor of the Node constructor with both child is NULL_NODE
+	 * 
+	 * @param c
+	 *            the element that node will contain
+	 */
+	public Node(char c) {
+		this.element = c;
+		this.left = NULL_NODE;
+		this.right = NULL_NODE;
+		this.rank = 0;
+		this.balance = Code.SAME;
+	}
+
+	/**
+	 * recursive find height of the tree with help of the balance code
+	 * 
+	 * @return height of the sub tree
+	 */
+	public int height() {
+		if (this == NULL_NODE) {
+			return -1;
+		}
+		if (this.balance == Code.RIGHT) {
+			return this.right.height() + 1;
+		}
+		return this.left.height() + 1;
+
+	}
+
+	public Node constructHelper(Node node) {
+		boolean hasRight = (node.right != Node.NULL_NODE);
+		boolean hasLeft = (node.left != Node.NULL_NODE);
+
+		Node newNode = new Node();
+		newNode.balance = node.balance;
+		newNode.element = node.element;
+		newNode.rank = node.rank;
+
+		if (!hasRight && !hasLeft) {
+			return newNode;
+		}
+
+		if (hasRight) {
+			newNode.right = this.constructHelper(node.right);
+		}
+
+		if (hasLeft) {
+			newNode.left = this.constructHelper(node.left);
+		}
+
+		return newNode;
+	}
+
+	/**
+	 * recursive find the size of the array with help of the rank
+	 * 
+	 * @return the size of the sub tree
+	 */
+	public int size() {
+		if (this == NULL_NODE) {
+			return 0;
+		}
+		
+		
+		return this.rank + 1 + this.right.size();
+	}
+
+	/**
+	 * 
+	 * Recursive in order toString method
+	 *
+	 * @param toReturn
+	 *            The string builder for the string for the final return
+	 */
+	public void stringHelper(StringBuilder toReturn) {
+		if (this == NULL_NODE) {
+			return;
+		}
+		if(this.left !=NULL_NODE){
+			this.left.stringHelper(toReturn);
+		}
+		toReturn.append(this.element);
+		if(this.right !=NULL_NODE){
+			this.right.stringHelper(toReturn);
+		}
+		
+	}
+
+	/**
+	 * recursive add method for the EditTree.
+	 * 
+	 * @param ch
+	 *            the Character that is about to insert into the tree
+	 * 
+	 * @param pos
+	 *            the pos of the character that is insert to, END indicate
+	 *            insert at the end of the tree
+	 * @param isHeightIncrease
+	 *            the flag will tree if the subtree size is change which
+	 *            indicate the update balance code and probably rotation is
+	 *            needed.
+	 * @param rotationalCount
+	 *            global variable variable to count total number of the
+	 *            rotation.
+	 * @return self after add.
+	 */
+	public Node add(char ch, int pos, Boolean[] isHeightIncrease, Integer[] rotationalCount) {
+		// base case of the add, if pos is not indicate add in front or the end,
+		// the pos is not correct
+		if (this == NULL_NODE) {
+			// make new node always change the height of self from -1 to 0
+			isHeightIncrease[0] = true;
+			if (pos == 0 || pos == END) {
+				return new Node(ch);
+			} else {
+				// WRONG INDEX!!!!!!!!!!!!!!!
+				throw new IndexOutOfBoundsException();
+			}
+		}
+
+		// finding the right position to add the data
+		Boolean isLeft = true;
+		if (pos == this.rank) {
+			// if this node is the node we are looking for, the new node will
+			// add to the end of the left subtree
+			this.left = this.left.add(ch, END, isHeightIncrease, rotationalCount);
+			this.rank++;
+		} else if (pos < this.rank && pos != END) {
+			// if the pos is smaller than the rank (but not END) recursive add
+			// to the left sub tree
+			this.left = this.left.add(ch, pos, isHeightIncrease, rotationalCount);
+			this.rank++;
+		} else {
+			// if pos is greater than the rank or END recursive add to the right
+			// sub tree
+			isLeft = false;
+			this.right = this.right.add(ch, pos == END ? END : pos - this.rank - 1, isHeightIncrease, rotationalCount);
+		}
+
+		// update the balance code
+		if (isHeightIncrease[0]) {
+			// calculate new balance code
+			Code newbalance = balancesumation(isLeft ? Code.LEFT : Code.RIGHT);
+			if (newbalance == null) {
+				// Unbalanced need rotation
+				isHeightIncrease[0] = false;
+				return this.rotation(rotationalCount);
+			} else {
+				// sub tree height will not consider to be increase if the new
+				// balanced is same
+				isHeightIncrease[0] = newbalance != Code.SAME;
+				this.balance = newbalance;
+			}
+		}
+		return this;
+	}
+
+	private Node rotation(Integer[] rotationalCount) {
+		if (this.balance == Code.RIGHT && this.right.balance == Code.RIGHT) {
+			rotationalCount[0]++;
+			return this.singleLeft();
+		}
+		if (this.balance == Code.LEFT && this.left.balance == Code.LEFT) {
+			rotationalCount[0]++;
+			return this.singleRight();
+		}
+		if (this.balance == Code.RIGHT && this.right.balance == Code.LEFT) {
+			rotationalCount[0] += 2;
+			return this.doubleLeft();
+		}
+		rotationalCount[0] += 2;
+		return this.doubleRight();
+
+	}
+	public Node delete(int pos, Boolean[] isHeightdecrease, Node[] endNode, Integer[] rotationalCount) {
+		if (this == NULL_NODE) {
+			if (pos == END || pos == FRONT) {
+				isHeightdecrease[0] = true;
+				endNode[0] = NULL_NODE;
+				return this;
+			}
+			throw new IndexOutOfBoundsException();
+		}
+		Boolean isLeft = true;
+		Node current = this;
+		if (pos == this.rank) {
+			// deleting
+			char child = this.left == NULL_NODE ? '0' : 'L';
+			child = this.right == NULL_NODE ? child : (child == '0' ? 'R' : '2');
+			endNode[0] = this;
+			switch (child) {
+			case '0':
+				isHeightdecrease[0] = true;
+				return NULL_NODE;
+			case 'L':
+				isHeightdecrease[0] = true;
+				return this.left;
+			case 'R':
+				isHeightdecrease[0] = true;
+				return this.right;
+			case '2':
+				isLeft = false;
+				this.right = this.right.delete(FRONT, isHeightdecrease, endNode, rotationalCount);
+				if (endNode[0] == null) {
+					throw new IllegalStateException();
+				}
+				current = endNode[0];
+				current.left = this.left;
+				current.right = this.right;
+				current.balance = this.balance;
+				current.rank = this.rank;
+				endNode[0] = this;
+				break;
+			default:
+				throw new IllegalStateException();
+			}
+
+		} else if (pos < this.rank && pos != END) {
+			this.left = this.left.delete(pos, isHeightdecrease, endNode, rotationalCount);
+			if (pos == FRONT) {
+				if (endNode[0] == NULL_NODE) {
+					// remove successor to the top
+					endNode[0] = this;
+					isHeightdecrease[0] = true;
+					return this.right;
+				}
+			}
+			this.rank--;
+		} else {
+			isLeft = false;
+			this.right = this.right.delete(pos > 0 ? pos - this.rank - 1 : pos, isHeightdecrease, endNode,
+					rotationalCount);
+			if (pos == END) {
+				if (endNode[0] == NULL_NODE) {
+					// remove prosuccessor to the top
+					endNode[0] = this;
+					isHeightdecrease[0] = true;
+					return this.left;
+				}
+			}
+		}
+
+		
+		
+		if (isHeightdecrease[0]) {
+			Code newbalance = balancesumation(isLeft ? Code.RIGHT : Code.LEFT);
+			if (newbalance == null) {
+				// need rotation
+				return current.d_rotation(rotationalCount, isHeightdecrease);
+			} else {
+				current.balance = newbalance;
+				isHeightdecrease[0] = current.balance == Code.SAME;
+			}
+		}
+
+		return current;
+	}
+	
+	
+	
+
+	public Node d_rotation(Integer[] rotationalCount, Boolean[] isHeightdecrease) {
+		if (this.balance == Code.RIGHT) {
+			if (this.right.balance == Code.LEFT) {
+				rotationalCount[0] += 2;
+				return this.doubleLeft();
+			}
+			boolean isSame = this.right.balance == Code.SAME;
+			rotationalCount[0]++;
+			Node toReturn = this.singleLeft();
+			if (isSame) {
+				toReturn.left.balance = Code.RIGHT;
+				toReturn.balance = Code.LEFT;
+				isHeightdecrease[0] = false;
+			}
+			return toReturn;
+		}
+		if (this.left.balance == Code.RIGHT) {
+			rotationalCount[0] += 2;
+			return this.doubleRight();
+		}
+		boolean isSame = this.left.balance == Code.SAME;
+		rotationalCount[0]++;
+		Node toReturn = this.singleRight();
+		if (isSame) {
+			toReturn.right.balance = Code.LEFT;
+			toReturn.balance = Code.RIGHT;
+			isHeightdecrease[0] = false;
+		}
+		return toReturn;
+	}
+
+	public Node singleLeft() {
+		
+		
+		Node rightChild = this.right;
+		Node rightChild_leftChild = rightChild.left;
+		int root_rank = this.rank;
+		int rightChild_rank = rightChild.rank;
+		rightChild.left = this;
+		this.right = rightChild_leftChild;
+		this.balance = Code.SAME;
+		rightChild.balance = Code.SAME;
+
+		rightChild.rank = rightChild_rank + root_rank + 1;
+		return rightChild;
+	}
+
+	public Node singleRight() {
+		Node leftChild = this.left;
+		Node leftChild_rightChild = leftChild.right;
+		int root_rank = this.rank;
+		int leftChild_rank = leftChild.rank;
+		leftChild.right = this;
+		this.left = leftChild_rightChild;
+		this.balance = Code.SAME;
+		leftChild.balance = Code.SAME;
+
+		this.rank = root_rank - leftChild_rank - 1;
+		return leftChild;
+	}
+
+	public Node doubleLeft() {
+		Node rightChild = this.right;
+		Node rightChild_leftChild = rightChild.left;
+
+		int root_rank = this.rank;
+		int rightChild_leftChild_rank = rightChild_leftChild.rank;
+
+		this.right = rightChild_leftChild.left;
+		rightChild.left = rightChild_leftChild.right;
+
+		rightChild_leftChild.left = this;
+		rightChild_leftChild.right = rightChild;
+
+		if (rightChild_leftChild.balance == Code.LEFT) {
+			rightChild_leftChild.left.balance = Code.SAME;
+			rightChild_leftChild.right.balance = Code.RIGHT;
+		} else if (rightChild_leftChild.balance == Code.RIGHT) {
+			rightChild_leftChild.left.balance = Code.LEFT;
+			rightChild_leftChild.right.balance = Code.SAME;
+		} else {
+			rightChild_leftChild.left.balance = Code.SAME;
+			rightChild_leftChild.right.balance = Code.SAME;
+
+		}
+
+		rightChild_leftChild.balance = Code.SAME;
+		rightChild_leftChild.rank += root_rank + 1;
+		rightChild.rank -= rightChild_leftChild_rank + 1;
+
+		return rightChild_leftChild;
+	}
+
+	public Node doubleRight() {
+		Node leftChild = this.left;
+		Node leftChild_rightChild = leftChild.right;
+
+		int leftChild_rank = leftChild.rank;
+		int leftChild_rightChild_rank = leftChild_rightChild.rank;
+
+		this.left = leftChild_rightChild.right;
+		leftChild.right = leftChild_rightChild.left;
+
+		leftChild_rightChild.right = this;
+		leftChild_rightChild.left = leftChild;
+
+		if (leftChild_rightChild.balance == Code.LEFT) {
+			leftChild_rightChild.left.balance = Code.SAME;
+			leftChild_rightChild.right.balance = Code.RIGHT;
+		} else if (leftChild_rightChild.balance == Code.RIGHT) {
+			leftChild_rightChild.left.balance = Code.LEFT;
+			leftChild_rightChild.right.balance = Code.SAME;
+		} else {
+			leftChild_rightChild.left.balance = Code.SAME;
+			leftChild_rightChild.right.balance = Code.SAME;
+
+		}
+		leftChild_rightChild.balance = Code.SAME;
+		leftChild_rightChild.rank += leftChild_rank + 1;
+		this.rank -= leftChild_rightChild_rank + leftChild_rank + 2;
+
+		return leftChild_rightChild;
+	}
+
+	/**
+	 * recursive pre order toDebugString method
+	 * 
+	 * @param toReturn
+	 *            the stringBuilder that contain partial string for the final
+	 *            return
+	 */
+	public void DebugstringHelper(StringBuilder toReturn) {
+		if (this == NULL_NODE) {
+			return;
+		}
+		toReturn.append(this.toString());
+		toReturn.append(", ");
+		this.left.DebugstringHelper(toReturn);
+		this.right.DebugstringHelper(toReturn);
+	}
+
+	/**
+	 * over write toString ease the debug process
+	 */
+	@Override
+	public String toString() {
+		return this.element + "" + this.rank + this.balance.toString();
+
+	}
+
+	/**
+	 * get the char in certain position
+	 * 
+	 * @param pos
+	 *            the index element is located
+	 * @return element of the index at pos, exception if the
+	 */
+	public char get(int pos) {
+
+		if (this == NULL_NODE) {
+			throw new IndexOutOfBoundsException();
+		}
+		if (pos == this.rank) {
+			return this.element;
+		} else if (pos < this.rank) {
+			return this.left.get(pos);
+		} else {
+			return this.right.get(pos - this.rank - 1);
+		}
+	}
+
+	/**
+	 * calculate new balance code after the height change
+	 * 
+	 * @param b
+	 *            code of the the balance change (LEFT if left height increase
+	 *            and so on)
+	 * @return new balance code of the node, null if the node is unbalanced.
+	 */
+	public Code balancesumation(Code b) {
+		switch (b.toInt() + this.balance.toInt()) {
+		case -2:
+			return null;
+		case -1:
+
+			return Code.LEFT;
+		case 0:
+			return Code.SAME;
+		case 1:
+			return Code.RIGHT;
+		case 2:
+			return null;
+		}
+		throw new IllegalStateException();
+	}
+	
+	public Node pasteHB(Node U, int HightofU, Node q, int HightofT, boolean isEnd, Integer[] rotation,
+			Boolean[] isHeightIncrease) {
+		if (HightofT - HightofU <= 1) {
+			if (isEnd) {
+				q.left = this;
+				q.right = U;
+			} else {
+				q.right = this;
+				q.left = U;
+			}
+			q.rank = q.left.size();
+			q.balance = HightofU == HightofT ? Code.SAME : (isEnd ? Code.LEFT : Code.RIGHT);
+			isHeightIncrease[0] = true;
+			return q;
+		}
+		int diffInHeight = (this.balance == (isEnd ? Code.LEFT : Code.RIGHT)) ? 2 : 1;
+		Node next = isEnd ? this.right : this.left;
+		next = next.pasteHB(U, HightofU, q, HightofT - diffInHeight, isEnd, rotation, isHeightIncrease);
+		if (isEnd) {
+			this.right = next;
+		} else {
+			this.left = next;
+		}
+		// update the balance code
+		if (isHeightIncrease[0]) {
+			// calculate new balance code
+			Code newbalance = balancesumation(isEnd ? Code.RIGHT : Code.LEFT);
+			if (newbalance == null) {
+				// Unbalanced need rotation
+				isHeightIncrease[0] = false;
+				return this.rotation(rotation);
+			} else {
+				// sub tree height will not consider to be increase if the
+				// new
+				// balanced is same
+				isHeightIncrease[0] = newbalance != Code.SAME;
+				this.balance = newbalance;
+			}
+		}
+		
+		return this;
+
+	}
+
+
+	public char[] getElement() {
+		return null;
+	}
+
+	public Code getBalance() {
+		return this.balance;
+	}
+
+	public DisplayableNodeWrapper getDisplayableNodePart() {
+		return null;
+	}
+
+	public Node getParent() {
+		return null;
+	}
+
+	public String getRank() {
+		String rank = "";
+		rank+=this.rank;
+		return rank;
+	}
+
+	public boolean hasLeft() {
+		return (this.left != Node.NULL_NODE);
+	}
+
+	public boolean hasRight() {
+		return (this.right != Node.NULL_NODE);
+	}
+
+	public boolean hasParent() {
+		return (this.getParent() != Node.NULL_NODE);
+	}
+
+	public Node getLeft() {
+		return this.left;
+	}
+
+	public Node getRight() {
+		return this.right;
+	}
+
+	public Node leftMost(Stack<Node> nodes) {
+		nodes.push(this);
+		if(this.left==Node.NULL_NODE){
+			return this;
+		}
+		return this.left.leftMost(nodes);
+	}
+
+	public EditTree split(EditTree t, int pos) {
+		if (this == NULL_NODE) {
+			throw new IndexOutOfBoundsException();
+		}
+		EditTree child = null;
+		if (pos == this.rank) {
+			EditTree s = new EditTree(this.left);
+			t.concatenate(new EditTree(this.element));
+			t.concatenate(new EditTree(this.right));
+			return s;
+		} else if (pos < this.rank) {
+			child = this.left.split(t, pos);
+			t.concatenate(new EditTree(this.right), this);
+		} else {
+			child = this.right.split(t, pos - this.rank - 1);
+			EditTree toReturn = new EditTree(this.left);
+			toReturn.concatenate(child, this);
+			child = toReturn;
+			
+		}
+		return child;
+
+	}
+
+}

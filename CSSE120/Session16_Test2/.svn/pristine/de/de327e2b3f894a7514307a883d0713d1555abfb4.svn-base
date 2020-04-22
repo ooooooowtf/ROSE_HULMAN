@@ -1,0 +1,418 @@
+"""
+Test 2, problem 1.
+
+Authors: David Fisher, David Mutchler, their colleagues
+         and PUT_YOUR_NAME_HERE.  April 2017.
+"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+
+import time
+import sys
+import rosegraphics as rg
+
+
+def main():
+    """ Calls the   TEST   functions in this module. """
+    test_problem1a()
+    test_problem1b()
+
+
+def test_problem1a():
+    """ Tests the   problem1a   function. """
+    # ------------------------------------------------------------------
+    # TODO: 2. Implement this TEST function.
+    #   It TESTS the   problem1a   function defined below.
+    #   Include at least  ** 2 ADDITIONAL tests **  such that:
+    #     -- One of your tests covers the case when the expected
+    #          answer is 'INVALID'
+    #     -- One of your tests covers the case when the expected
+    #          answer is a number (i.e., NOT 'INVALID').
+    # ------------------------------------------------------------------
+    print()
+    print('--------------------------------------------------')
+    print('Testing the   problem1a   function:')
+    print('--------------------------------------------------')
+
+    # Test 1:
+    print('\n' + 'Test 1:')
+    expected = 3
+    actual = problem1a([5, 4, 4, 5, 3, 4, 4, 3, 7], 4)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 2:
+    print('\n' + 'Test 2:')
+    expected = -2
+    actual = problem1a([3, 3, 3, 3, 3, 3, 3, 3, 1], 3)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 3:
+    print('\n' + 'Test 3:')
+    expected = "INVALID"
+    actual = problem1a([], 1)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 4:
+    print('\n' + 'Test 4:')
+    expected = "INVALID"
+    actual = problem1a([1, 5, 4, 4, 5, 3, 4, 4, 3, 7], 4)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 5:
+    print('\n' + 'Test 5:')
+    expected = 0
+    actual = problem1a([10, 10, 10, 10, 10, 10, 10, 10, 10], 10)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 6:
+    print('\n' + 'Test 6:')
+    expected = 10
+    actual = problem1a([11, 12, 13, 14, 10, 10, 10, 10, 10], 10)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 7:
+    print('\n' + 'Test 7:')
+    expected = -7
+    actual = problem1a([4, 5, 6, 2, 13, 2, 3, 2, 1], 5)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # ------------------------------------------------------------------
+    # TODO 2 (continued):  Add your 2 ADDITIONAL tests here.
+    #    Remember that one test must be for the INVALID case.
+    # ------------------------------------------------------------------
+
+
+def problem1a(golf_scores, par):
+    """
+    What comes in:
+      golf_scores - A sequence of positive integers
+         (represents scores on 9 holes of golf).
+      par - A positive integer (on this golf course all 9 holes
+         have the same "par" value)
+    What goes out:
+      -- Returns the string 'INVALID' if the sequence  golf_scores
+           does not have exactly 9 items in it.
+      -- Otherwise, returns how  far over or under par the golfer
+           scored over the 9 holes.  See examples below.
+    Side effects: None.
+    Examples:
+      If   golf_scores  is the list:
+          [5, 4, 4, 5, 3, 4, 4, 3, 7]
+      and par is 4, then the golfer scores:
+         5 - 4 = 1 (so 1 over par) on Hole 1
+         4 - 4 = 0 (so exactly on par) on Hole 2
+         4 - 4 = 0 (so exactly on par) on Hole 3
+         5 - 4 = 1 (so 1 over par) on Hole 4
+         3 - 4 = -1 (so 1 under par) on Hole 5
+         4 - 4 = 0 (so exactly on par) on Hole 6
+         4 - 4 = 0 (so exactly on par) on Hole 7
+         3 - 4 = -1 (so 1 under par) on Hole 8
+         7 - 4 = 3 (so 3 over par) on Hole 9.
+      In this example, this function should return 3 
+        since 1 + 0 + 0 + 1 - 1 + 0 + 0 - 1 + 3 = 3
+        (If you know golf that's 2 birdies, 2 bogeys, and a triple bogey.)
+
+      Here is another example:  If  golf_scores  is the list:
+         [3, 3, 3, 3, 3, 3, 3, 3, 1]
+      and par is 3, then this function returns -2
+      (which is (3 - 3) + (3 - 3) + ... (1 - 3)).
+
+      If   golf_scores   is any sequence with too few entries,
+      like these:
+        []      [5, 4, 5]     [5, 4, 4, 5, 3, 4, 4, 3]
+      or any sequence with too many entries, like these:
+        [5, 4, 4, 5, 3, 4, 4, 3, 7, 2]        -- has 10 entries
+        [5, 4, 4, 5, 3, 4, 4, 3, 7, 2, 1, 6]  -- has 12 entries
+      then this function returns 'INVALID' (regardless of what  par  is)
+
+      NOTE: In the case where the function does NOT return 'INVALID',
+            no credit if you do not use a LOOP to solve the problem.
+    Type hints:
+      :type golf_scores: [int]
+      :type par:         int
+    """
+    # ------------------------------------------------------------------
+    # TODO: 3. Implement and test this function.
+    #          You should write its TEST function first (above).
+    # ------------------------------------------------------------------
+
+
+def test_problem1b():
+    print()
+    print('--------------------------------------------------')
+    print('Testing the   problem1b   function:')
+    print('--------------------------------------------------')
+
+    # Test 1:
+    print('\n' + 'Test 1:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 17),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(10, 400), 100),
+               rg.Circle(rg.Point(3, 50), 5)]
+    expected = 20
+    actual = problem1b(circles, 28)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 2:
+    print('\n' + 'Test 2:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 17),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(10, 400), 100),
+               rg.Circle(rg.Point(3, 50), 5)]
+    expected = 20
+    actual = problem1b(circles, 110)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 3:
+    print('\n' + 'Test 3:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 17),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(10, 400), 100),
+               rg.Circle(rg.Point(3, 50), 5)]
+    expected = 5
+    actual = problem1b(circles, 6)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 4:
+    print('\n' + 'Test 4:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 17),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(10, 400), 100),
+               rg.Circle(rg.Point(3, 50), 5)]
+    expected = -1
+    actual = problem1b(circles, 5)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 5:
+    print('\n' + 'Test 5:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 17),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(10, 400), 100),
+               rg.Circle(rg.Point(3, 50), 5)]
+    expected = -1
+    actual = problem1b(circles, 2)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 6:
+    print('\n' + 'Test 6:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 17),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(10, 400), 100),
+               rg.Circle(rg.Point(3, 50), 5)]
+    expected = 17
+    actual = problem1b(circles, 20)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 7:
+    print('\n' + 'Test 7:')
+    circles = []
+    expected = -1
+    actual = problem1b(circles, 100)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 8:
+    print('\n' + 'Test 8:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 3),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(300, 200), 33)]
+    expected = 3
+    actual = problem1b(circles, 19)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 9:
+    print('\n' + 'Test 9:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 3),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(300, 200), 33)]
+    expected = 3
+    actual = problem1b(circles, 20)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 10:
+    print('\n' + 'Test 10:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 20),
+               rg.Circle(rg.Point(7, 13), 16),
+               rg.Circle(rg.Point(300, 200), 18)]
+    expected = 16
+    actual = problem1b(circles, 19)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 11:
+    print('\n' + 'Test 11:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 17),
+               rg.Circle(rg.Point(7, 13), 10),
+               rg.Circle(rg.Point(300, 200), 33)]
+    expected = 10
+    actual = problem1b(circles, 12)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+    # Test 12:
+    print('\n' + 'Test 12:')
+    circles = [rg.Circle(rg.Point(5, 10), 20),
+               rg.Circle(rg.Point(2, 20), 3),
+               rg.Circle(rg.Point(7, 13), 20),
+               rg.Circle(rg.Point(300, 200), 33)]
+    expected = -1
+    actual = problem1b(circles, 3)
+    print("Expected:", expected)
+    print("Actual:", actual)
+    if expected == actual:
+        print("Test passed SUCCESSFULLY!")
+    else:
+        print_failure_message()
+
+
+def problem1b(circles, z):
+    """
+    What comes in:
+      circles - A sequence of rg.Circle objects.
+      z - A number
+    What goes out:
+      Returns the radius of the first circle in the  circles  sequence
+      whose radius is less than the given z.
+      Returns -1 if NONE of the circles have radius less than z.
+
+      Remember that an rg.Circle has an instance variable named
+         radius
+      for its radius.
+    Side effects: None.
+    Examples:
+      If the sequence is a list containing these 5 rg.Circles:
+        rg.Circle(rg.Point(5, 10), 20)
+        rg.Circle(rg.Point(2, 20), 17)
+        rg.Circle(rg.Point(7, 13), 20)
+        rg.Circle(rg.Point(10, 400), 100)
+        rg.Circle(rg.Point(3, 50), 5)
+      then:
+         -- if z is 28, this function returns 20
+         -- if z is 110, this function returns 100
+         -- if z is 6, this function returns 5
+         -- if z is 5, this function returns -1
+         -- if z is 2, this function returns -1.
+
+      Another example:  If the sequence is the empty list,
+        then this function returns -1 (regardless of what  z  is).
+    Type hints:
+      :type circles: [rg.Circle]
+      :type z:       int
+    """
+    # ------------------------------------------------------------------
+    # TODO: 4. Implement and test this function.
+    #          Tests have been written for you (above).
+    # ------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Students: Our tests use the following to print error messages in red.
+# Do NOT change it.  You do NOT have to do anything with it.
+# ----------------------------------------------------------------------
+def print_failure_message(message='  *** FAILED the above test. ***',
+                          flush_time=1.0):
+    """ Prints a message onto stderr, hence in RED. """
+    time.sleep(flush_time)
+    print(message,
+          file=sys.stderr, flush=True)
+    time.sleep(flush_time)
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()

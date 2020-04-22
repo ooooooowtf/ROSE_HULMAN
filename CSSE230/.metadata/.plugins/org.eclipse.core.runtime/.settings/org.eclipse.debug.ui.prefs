@@ -1,0 +1,2 @@
+org.eclipse.debug.ui.save_dirty_editors_before_launch=always
+org.eclipse.debug.ui.switch_perspective_on_suspend=always

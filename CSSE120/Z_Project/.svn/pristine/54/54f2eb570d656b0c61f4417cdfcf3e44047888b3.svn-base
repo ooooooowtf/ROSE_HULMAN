@@ -1,0 +1,13 @@
+2.0 - S1 - 5/9 Worked on feature 3, fixed wired connect button
+3.0 - S2 - 5/10 Fixed and finished feature 3
+2.5 - S2 - 5/11 A lot of polishing and connection stuff (mostly m4)
+0.5 - S3 - 5/12 Just the first part of class, left early
+2.5 - S3 - 5/14 Started feature 6, tried implementing buttons on GUI
+4.0 - S3 - 5/15 Finished and polished feature 6
+1.5 - S3 - 5/15 Started work on feature 10, tried to add it to GUI
+1.5 - S3 - 5/15 GUI work and polishing, modifying my classes to make more sense
+2.0 - S3 - 5/16 Finally got feature 10's GUI to look good and send stuff to dc
+2.0 - S3 - 5/17 Tried and failed to get bang bang and PID to work
+1.5 - S3 - 5/18 Experimented with robot to get units into cm and seconds
+1.5 - S3 - 5/19 Got bang bang and PID control to work and finished feature 10
+0.5 - S3 - 5/19 Worked briefly on the turn for degrees functions

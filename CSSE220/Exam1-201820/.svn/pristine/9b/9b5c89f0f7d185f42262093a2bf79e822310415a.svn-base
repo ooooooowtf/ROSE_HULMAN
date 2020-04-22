@@ -1,0 +1,66 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+
+public class Pyramid {
+	private Color color;
+	private double x;
+	private double y;
+	private double xo;
+	private double yo;
+
+	// TODO: Add fields and constructors.
+	// public Pyramid(){
+	// Rectangle2D.Double rectan = new Rectangle2D.Double(0, 0, 30, 15);
+	// }
+
+	public Pyramid() {
+
+	}
+
+	public Pyramid(double x1, double y1) {
+		this.xo = x1;
+		this.yo = y1;
+	}
+
+	public void drawOneBlock(Graphics2D g2) {
+		g2.setColor(Color.green);
+		Rectangle2D.Double rectan = new Rectangle2D.Double(0, 0, 30, 15);
+		g2.fill(rectan);
+		g2.setColor(Color.BLACK);
+		Rectangle2D.Double rectan1 = new Rectangle2D.Double(0, 0, 30, 15);
+		g2.draw(rectan);
+		g2.draw(rectan1);
+	}
+
+	public void drawOn(Graphics2D g2) {
+		this.x = 0;
+		this.y = 0;
+		for (int i = 0; i < 5; i++) {
+
+			for (int j = 0; j < (5 - i); j++) {
+
+				g2.setColor(Color.green);
+				Rectangle2D.Double rectan = new Rectangle2D.Double(x + 30 * j, y + 15 * i, 30, 15);
+				g2.fill(rectan);
+				g2.setColor(Color.BLACK);
+				Rectangle2D.Double rectan1 = new Rectangle2D.Double(x + 30 * j, y + 15 * i, 30, 15);
+				g2.draw(rectan);
+				g2.draw(rectan1);
+			}
+			x = x + 15;
+		}
+	}
+
+	public void drawRotated(Graphics2D g2, double degrees) {
+		// TODO: UNCOMMENT the code below PyramidComponent's TODO 3
+		g2.translate(xo, yo);
+		for (int i = 0; i < 4; i++) {
+			Pyramid dPyramid = new Pyramid();
+			dPyramid.drawOn(g2);
+			g2.rotate(degrees / 180 * Math.PI);
+		}
+		g2.translate(-xo, -yo);
+		// TODO: Complete Phase 3
+	}
+}

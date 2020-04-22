@@ -1,0 +1,62 @@
+//
+//                       _oo0oo_
+//                      o8888888o
+//                      88" . "88
+//                      (| -_- |)
+//                      0\  =  /0
+//                    ___/`---'\___
+//                  .' \\|     |// '.
+//                 / \\|||  :  |||// \
+//                / _||||| -:- |||||- \
+//               |   | \\\  -  /// |   |
+//               | \_|  ''\---/''  |_/ |
+//               \  .-\__  '-'  ___/-. /
+//             ___'. .'  /--.--\  `. .'___
+//          ."" '<  `.___\_<|>_/___.' >' "".
+//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+//         \  \ `_.   \_ __\ /__ _/   .-` /  /
+//     =====`-.____`.___ \_____/___.-`___.-'=====
+//                       `=---='
+//
+//
+//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+//
+
+public class QuickSort<T extends Comparable<? super T>> {
+	public static int partition(int arr[], int left, int right) {
+		int i = left, j = right;
+		int pivot = arr[(left + right) / 2];
+
+		while (i <= j) {
+			while (arr[i] < pivot)
+				i++;
+			while (arr[j] > pivot)
+				j--;
+
+			if (i <= j) {
+				swap(arr, i, j);
+				i++;
+				j--;
+			}
+
+		}
+		return i;
+	}
+
+	public static void quickSort(int arr[], int left, int right) {
+		int index = partition(arr, left, right);
+		if (left < index - 1)
+			quickSort(arr, left, index - 1);
+		if (index < right)
+			quickSort(arr, index, right);
+	}
+
+	private static void swap(int[] array, int i, int j) {
+		// TODO Auto-generated method stub.
+		int temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+
+}

@@ -1,0 +1,175 @@
+//
+//                       _oo0oo_
+//                      o8888888o
+//                      88" . "88
+//                      (| -_- |)
+//                      0\  =  /0
+//                    ___/`---'\___
+//                  .' \\|     |// '.
+//                 / \\|||  :  |||// \
+//                / _||||| -:- |||||- \
+//               |   | \\\  -  /// |   |
+//               | \_|  ''\---/''  |_/ |
+//               \  .-\__  '-'  ___/-. /
+//             ___'. .'  /--.--\  `. .'___
+//          ."" '<  `.___\_<|>_/___.' >' "".
+//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+//         \  \ `_.   \_ __\ /__ _/   .-` /  /
+//     =====`-.____`.___ \_____/___.-`___.-'=====
+//                       `=---='
+//
+//
+//     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+//
+
+public class QuickSort<T extends Comparable<? super T>> {
+	private int size;
+	private T[] data;
+
+	public static int partition(int arr[], int left, int right)
+
+	{
+
+		int i = left, j = right;
+
+		int tmp;
+
+		int pivot = arr[(left + right) / 2];
+
+		while (i <= j) {
+
+			while (arr[i] < pivot)
+
+				i++;
+
+			while (arr[j] > pivot)
+
+				j--;
+
+			if (i <= j) {
+
+				swap(arr,i,j);
+
+				i++;
+
+				j--;
+
+			}
+
+		}
+		;
+
+		return i;
+
+	}
+
+	public static void quickSort(int arr[], int left, int right) {
+
+		int index = partition(arr, left, right);
+
+		if (left < index - 1)
+
+			quickSort(arr, left, index - 1);
+
+		if (index < right)
+
+			quickSort(arr, index, right);
+
+	}
+
+	// public static void quickSort(int[] a, int low, int high) {
+	// if (low >= high) {
+	// return;
+	// }
+	//
+	// int pivot;
+	// int a1 = a[low];
+	// int a2 = a[(high + low) / 2];
+	// int a3 = a[high];
+	// if (a1 < a2) {
+	// if (a2 < a3) {
+	// pivot = a2;
+	// swap(a, low, (high + low) / 2);
+	// } else {
+	// if (a1 < a3) {
+	// pivot = a3;
+	// swap(a, low, high);
+	// } else {
+	// pivot = a1;
+	// }
+	// }
+	// } else {
+	// if (a1 > a3) {
+	// pivot = a1;
+	// } else {
+	// if (a2 < a3) {
+	// pivot = a2;
+	// swap(a, low, (high + low) / 2);
+	// } else {
+	// pivot = a3;
+	// swap(a, low, high);
+	// }
+	// }
+	// }
+	// int i = low + 1;
+	// int j = high;
+	// while (i < j) {
+	// while (a[i] <= pivot && i < j) {
+	// i++;
+	// }
+	// while (a[j] >= pivot && i <= j) {
+	// j--;
+	// }
+	// if (i >= j) {
+	// break;
+	// }
+	// swap(a, i, j);
+	// }
+	// if (pivot > a[j]) {
+	// swap(a, low, j);
+	// }
+	// quickSort(a, low, j - 1);
+	// quickSort(a, j + 1, high);}
+	// if (arr == null || arr.length == 0)
+	// return;
+	//
+	// if (low >= high)
+	// return;
+	//
+	// // pick the pivot
+	// int middle = low + (high - low) / 2;
+	// int pivot = arr[middle];
+	//
+	// // make left < pivot and right > pivot
+	// int i = low, j = high;
+	// while (i <= j) {
+	// while (arr[i] < pivot) {
+	// i++;
+	// }
+	//
+	// while (arr[j] > pivot) {
+	// j--;
+	// }
+	//
+	// if (i <= j) {
+	// swap(arr, i, j);
+	// }
+	// }
+	//
+	// // recursively sort two sub parts
+	// if (low < j)
+	// quickSort(arr, low, j);
+	//
+	// if (high > i)
+	// quickSort(arr, i, high);
+	// }
+
+	private static void swap(int[] array, int i, int j) {
+		// TODO Auto-generated method stub.
+		int temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+
+}

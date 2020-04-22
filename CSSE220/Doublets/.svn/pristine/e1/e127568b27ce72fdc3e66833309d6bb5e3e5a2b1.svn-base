@@ -1,0 +1,65 @@
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+public class PriorityQueueChainManager extends ChainManager {
+	private Queue<Chain> items;
+
+	public PriorityQueueChainManager(String end) {
+		this.items = new PriorityQueue<>();
+
+	}
+
+	@Override
+	public void add(Chain chain) {
+		// TODO Auto-generated method stub.
+		this.items.add(chain);
+
+	}
+
+	@Override
+	public Chain next() {
+		// TODO Auto-generated method stub.
+		return this.items.poll();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub.
+		return this.items.isEmpty();
+	}
+
+	public int compareValue(String word2) {
+
+		int diffCount = 0;
+		for (int i = 0; i < word2.length(); i++) {
+			if (items.peek().getLast().charAt(i) != word2.charAt(i))
+				diffCount++;// Makes the comparison.
+
+		}
+		return diffCount;
+	}
+
+	public class Entry implements Comparable<Chain> {
+		private Chain self;
+
+		public Entry(Chain chain) {
+			// PriorityQueueChainManager manager = new
+			// PriorityQueueChainManager()
+			this.self = chain;
+		}
+
+		@Override
+		public int compareTo(Chain o) {
+			// TODO Auto-generated method stub.
+			int value = 0;
+			for (int i = 0; i < self.getLast().length(); i++) {
+				if (self.getLast().charAt(i) != o.getLast().charAt(i))
+					value++;// Makes the comparison.
+			}
+			value = value + self.length() - o.length();
+			return value;
+		}
+
+	}
+
+}

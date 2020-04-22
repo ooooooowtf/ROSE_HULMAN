@@ -1,0 +1,81 @@
+package evaluator;
+
+import java.util.Stack;
+
+public class InfixEvaluator extends Evaluator {
+	private Stack<Character> operator;
+
+	@Override
+	public int evaluate(String expression) throws ArithmeticException {
+		// TODO Auto-generated method stub.
+		return 0;
+	}
+
+	public String convertToPostfix(String infix) {
+		// TODO Auto-generated method stub.
+		String postfix = " ";
+		this.operator = new Stack<Character>();
+		for (int i = 0; i < infix.length(); i++) {
+			char current = infix.charAt(i);
+			if (current == '(') {
+				this.operator.push('(');
+			} else if (current == ')') {
+				Character o = this.operator.peek();
+				while (!(o.equals('(')) && !(this.operator.isEmpty())) {
+					postfix += o;
+					this.operator.pop();
+					o = this.operator.peek();
+				}
+				this.operator.pop();
+			} else if (current == '+' || current == '-') {
+				if (this.operator.isEmpty()) {
+					this.operator.push(current);
+				} else {
+					Character o = this.operator.peek();
+					while (!(this.operator.isEmpty() || o.equals('('))) {
+						this.operator.pop();
+						postfix += o;
+					}
+					this.operator.push(current);
+				}
+			} else if (current == '*' || current == '/') {
+				if (this.operator.isEmpty()) {
+					this.operator.push(current);
+				} else {
+					Character o = this.operator.peek();
+					while (!o.equals('+') && !o.equals('-') && !this.operator.isEmpty() ) {
+						this.operator.pop();
+						postfix += o;
+					}
+					this.operator.push(current);
+				}
+			} else if (current == '^') {
+				if (this.operator.isEmpty()) {
+					this.operator.push(current);
+				} else {
+					Character o = this.operator.peek();
+					while (!o.equals('+') && !o.equals('-') && !this.operator.isEmpty() && !o.equals('*')
+							&& !o.equals('/')) {
+						this.operator.pop();
+						postfix += o;
+					}
+					this.operator.push(o);
+				}
+			} else if (Character.isDigit(current)) {
+
+				postfix += current;
+				
+			} 
+
+		}
+		while (!this.operator.isEmpty()) {
+			Character oper = this.operator.peek();
+
+			this.operator.pop();
+			postfix += oper;
+			postfix += ' ';
+
+		}
+		return postfix;
+	}
+}

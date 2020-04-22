@@ -1,0 +1,41 @@
+Students:
+
+Here is how you do today's exercise, in m1_Point.
+
+Do TODO 1 as usual, then TODO 2.  It tells you to:
+  -- With your instructor, understand these instructions.
+  -- In m1_Point, write a two-line implementation of a Point
+       class that (at that point) has NO methods.
+
+Then, for each TODO from #3 to the end of the exercise, you will
+do the following.  (This shows the TODO for the __INIT__ method.
+The TODOs for the remaining methods follow the same form.)
+
+    # ------------------------------------------------------------------
+    # TODO: 3.
+    #   a. Read the above specification of the   __INIT__   method.
+    #        Do NOT proceed until you understand WHAT it should do
+    #        (but not necessarily HOW it will do it).
+    #        NO CODE YET.  Ask questions as needed.
+    #
+    #   b. Examine the EXAMPLE code in the green doc-string above.
+    #        Make sure that you see how that code works, and how it
+    #        TESTS the __INIT__ method.  ** ASK QUESTIONS AS NEEDED. **
+    #
+    #   c. Select the code in the EXAMPLE in the green doc-string above.
+    #        Copy-and-paste it into this  TEST_INIT  function, putting
+    #        the copied code just below the PRINT statements below.
+    #
+    #      Use the Tab and Shift-Tab keystrokes as needed to fix the
+    #        indentation of the pasted code.
+    #
+    #      You cannot RUN the copy-pasted tests because you
+    #        have not (yet) implemented the  __INIT__  method.
+    #
+    #   e. Implement and test the  __INIT__  method.
+    #        Make sure that you UNDERSTAND your code and are not just
+    #        "pattern matching" from examples.
+    #        ASK QUESIONS AS NEEDED.  COMMIT YOUR WORK.
+    # ------------------------------------------------------------------
+ 
+ We may code the first few TODO's together.

@@ -1,0 +1,67 @@
+package ballworlds;
+
+import java.awt.geom.Point2D;
+
+import util.Random;
+
+/**
+ * A ball that bounces off the walls.
+ * 
+ * @author Curt Clifton. Created Jan 22, 2011.
+ */
+public abstract class AbstractBouncer extends Ball {
+	// nothing here... yet
+	private double velocityx;
+	private double velocityy;
+	private double boundx;
+	private double boundy;
+	private double xcenter;
+	private double ycenter;
+	/**
+	 * Constructs a abstract bouncer in the given world.
+	 * 
+	 * @param world
+	 */
+	public AbstractBouncer(BallEnvironment world) {
+		super(world);
+
+		this.xcenter = world.getCenterPoint().getX();
+		this.ycenter = world.getCenterPoint().getY();
+		this.velocityx = Random.randInterval(-1.0, 1.0);
+		this.velocityy = Random.randInterval(-1.0, 1.0);
+		this.boundx = world.getSize().getWidth();
+		this.boundy = world.getSize().getHeight();
+
+	}
+	
+	public AbstractBouncer(BallEnvironment world, Point2D centerPoint) {
+		super(world,centerPoint);
+		this.xcenter=centerPoint.getX();
+		this.ycenter=centerPoint.getY();
+		this.velocityx = Random.randInterval(-1.0, 1.0);
+		this.velocityy = Random.randInterval(-1.0, 1.0);
+		this.boundx = world.getSize().getWidth();
+		this.boundy = world.getSize().getHeight();
+	}
+	
+	
+	public void setVelocity() {
+		double xpos = this.getCenterPoint().getX();
+		double ypos = this.getCenterPoint().getY();
+		if (xpos <= 0) {
+			this.velocityx = -this.velocityx;
+		} else if (xpos >= this.boundx) {
+			this.velocityx = -this.velocityx;
+		}
+		if (ypos <= 0) {
+			this.velocityy = -this.velocityy;
+		} else if (ypos >= this.boundy) {
+			this.velocityy = -this.velocityy;
+		}
+		this.xcenter = this.xcenter+this.velocityx;
+		this.ycenter= this.ycenter+this.velocityy;
+		this.setCenterPoint(new Point2D.Double(this.xcenter,this.ycenter));
+
+	}
+
+}

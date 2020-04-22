@@ -1,0 +1,256 @@
+<BEGIN-MESSAGE>
+<END-MESSAGE>
+<I am ready to listen>
+<I am finished listening>
+<list1> Use this (standard) file hereafter for the codes: IR_code_list1.txt
+<common_words_list> Use this common-words file hereafter for the codes: IR_most_common_words.txt
+<list2> Use this specialty file hereafter for the codes: IR_code_list2.txt
+<list3> Use this specialty file hereafter for the codes: IR_code_list3.txt
+<list4> Use this specialty file hereafter for the codes: IR_code_list4.txt
+<list5> Use this specialty file hereafter for the codes: IR_code_list5.txt
+<list6> Use this specialty file hereafter for the codes: IR_code_list6.txt
+<list7> Use this specialty file hereafter for the codes: IR_code_list7.txt
+<list8> Use this specialty file hereafter for the codes: IR_code_list8.txt
+<list9> Use this specialty file hereafter for the codes: IR_code_list9.txt
+<list10> Use this specialty file hereafter for the codes: IR_code_list10.txt
+<SHIFT> Apply the shift operator to next byte sent (if the byte stands for a multiple-letter string, apply the SHIFT key to the first letter>
+<REPEAT> Interpret the next byte as a number, repeat the byte after that the given number of times>
+<NULL> Ignore this byte (useful when you want to send the same byte twice in a row)>
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> by INSTRUCTOR for future expansion, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+<reserved> for YOU to use as you see fit, intended for control characters like the above
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z
+<SPACE> (blank) character
+<NEWLINE>
+<TAB>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+!
+@
+#
+$
+%
+^
+&
+*
+(
+)
+-
+_
+=
++
+[
+{
+]
+}
+\
+|
+;
+:
+'
+"
+,
+<
+.
+>
+/
+?
+<reserved> for non-ASCII characters
+<reserved> for non-ASCII characters
+<reserved> for non-ASCII characters
+<reserved> for non-ASCII characters
+<reserved> for non-ASCII characters
+addicted
+all the way
+always
+are beautiful
+arm
+bad
+boyfriend
+break
+camera
+come back
+cool
+cry
+dance
+date
+does this remind you of anything
+don't leave
+don't stalk
+down
+feel
+flowers
+girlfriend
+go away
+good
+goodbye
+happy
+hear
+heart
+hello
+here
+hurts
+I can't
+I don't love
+I don't understand
+I have moved on
+I have to go
+I just want to see
+I'll never leave you
+I love
+I LOVE PURDUE
+I'm pregnant
+I'm sorry
+I need help
+I need you
+it
+it's very hard
+it was a dream
+I want you back
+i will
+jam
+just
+just listen
+Keepon
+kiss
+laugh
+leave me alone
+let
+life
+light
+listen
+lol
+love
+made
+me
+meet
+mine
+move
+my
+never
+play
+please
+robot
+sad
+say
+sing
+smile
+take
+talk
+terrible
+that's all right
+the
+them
+there
+this
+tired
+to
+umadbro?
+up
+us
+want
+what do you want to talk about?
+when
+why are you doing this?
+wish
+wow
+you
+you're scaring me
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<reserved> for YOU to use as you see fit, intended for phrases like the above
+<NOTHING_HEARD> 255, code that the IR receiver returns when nothing is heard

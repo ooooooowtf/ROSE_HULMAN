@@ -1,0 +1,59 @@
+import java.util.ArrayList;
+
+public class PriorityQueueChainManager extends ChainManager {
+	private ArrayList<Chain> items;
+	
+	public PriorityQueueChainManager(String end){
+		this.items =new ArrayList<Chain>();
+		
+	}	
+	
+	@Override
+	public void add(Chain chain) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	@Override
+	public Chain next() {
+		// TODO Auto-generated method stub.
+		return null;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub.
+		return false;
+	}
+	
+	public int compareValue(String word2){
+		
+		int diffCount = 0;
+		for (int i = 0; i < word2.length(); i++) {
+			if (items.get(0).getLast().charAt(i) != word2.charAt(i))
+				diffCount++;// Makes the comparison.
+			
+		}
+		return diffCount;
+	}
+	
+	public Chain findMin() {
+		// This is also known as peekMin
+		// TODO: implement
+		if (this.items.size() == 0) {
+			return null;
+		}
+		Chain min = this.items.get(0);
+		return min;
+	}
+	
+	public class Entry <T extends Comparable<T>>{
+		
+		public Entry(Chain chain){
+			
+		}
+		
+		
+	}
+
+}

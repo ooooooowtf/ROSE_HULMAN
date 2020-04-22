@@ -1,0 +1,286 @@
+"""
+Final exam, problem 1.
+
+Authors: David Mutchler, his colleagues,
+         and PUT_YOUR_NAME_HERE.  May 2017.
+"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+
+import simple_testing as st
+
+#-----------------------------------------------------------------------
+# These problems use the  SIMPLE_TESTING  module for expressing and
+# executing tests.  Here is an example:
+#
+#-----------------------------------------------------------------------
+
+
+def main():
+    """ Calls the   TEST   functions in this module. """
+#     test_problem1a()
+#     test_problem1b()
+#     test_problem1c()
+#     test_problem1d()
+#     test_problem1e()
+
+
+def test_problem1a():
+    """ Tests the    problem1a    function. """
+    tests = [st.SimpleTestCase(problem1a,
+                               [-1, 0],
+                               1),
+             st.SimpleTestCase(problem1a,
+                               [77, 77],
+                               108.8944,
+                               0.0001),
+             st.SimpleTestCase(problem1a,
+                               [-3, 4],
+                               5),
+             st.SimpleTestCase(problem1a,
+                               [5, -10],
+                               11.1803,
+                               0.0001),
+             st.SimpleTestCase(problem1a,
+                               [0, 0],
+                               0),
+             ]
+
+    st.SimpleTestCase.run_tests('problem1a', tests)
+
+
+def problem1a(x, y):
+    """
+    What comes in:
+      -- Numbers x and y.
+    What goes out:
+      -- Returns the distance that the point (x, y)
+           is from the origin (0, 0).
+    Side effects: None.
+    Examples:
+      problem1a(-1, 0)  returns 1
+      problem1a(77, 77) returns 108.8944 (approximately)
+      problem1a(-3, -4) returns 5
+    """
+    # ------------------------------------------------------------------
+    # TODO: 2. Implement and test this function.
+    #          Tests have been written for you (above).
+    # ------------------------------------------------------------------
+
+
+def test_problem1b():
+    """ Tests the    problem1b    function. """
+    tests = [st.SimpleTestCase(problem1b,
+                               ['dog'],
+                               False),
+             st.SimpleTestCase(problem1b,
+                               ['doG'],
+                               True),
+             st.SimpleTestCase(problem1b,
+                               ['HELLO'],
+                               True),
+             st.SimpleTestCase(problem1b,
+                               ['hello'],
+                               False),
+             st.SimpleTestCase(problem1b,
+                               [''],
+                               False),
+             ]
+
+    st.SimpleTestCase.run_tests('problem1b', tests)
+
+
+def problem1b(s):
+    ####################################################################
+    # HINT: Use the string method  isupper  to determine
+    #   whether or not a character is upper-case.
+    ####################################################################
+    """
+    What comes in:
+      -- A string s.
+    What goes out:
+      -- Returns True if the given string ends with an upper-case
+         letter, else returns False.  [Note: the empty string is
+         considered NOT to end with an upper-case letter.]
+    Side effects: None.
+    Examples:
+      problem1('dog') returns False
+      problem1('doG') returns True
+      problem1('')    returns False
+    Type hints:
+      :type s: str
+    """
+    # ------------------------------------------------------------------
+    # TODO: 3. Implement and test this function.
+    #          Tests have been written for you (above).
+    # IMPORTANT: See the  HINT  just below the DEF line.
+    # ------------------------------------------------------------------
+
+
+def test_problem1c():
+    """ Tests the    problem1c    function. """
+    tests = [st.SimpleTestCase(problem1c,
+                               [2, 3],
+                               8),
+             st.SimpleTestCase(problem1c,
+                               [2, -3],
+                               0.125,
+                               0.000001),
+             st.SimpleTestCase(problem1c,
+                               [-2, 3],
+                               -8),
+             st.SimpleTestCase(problem1c,
+                               [-2, 0],
+                               1),
+             st.SimpleTestCase(problem1c,
+                               [1, 100],
+                               1),
+             st.SimpleTestCase(problem1c,
+                               [-3, 3],
+                               -27),
+             st.SimpleTestCase(problem1c,
+                               [5, 4],
+                               625),
+             st.SimpleTestCase(problem1c,
+                               [5, -4],
+                               0.0016,
+                               0.000001),
+             st.SimpleTestCase(problem1c,
+                               [100, 0],
+                               1),
+             st.SimpleTestCase(problem1c,
+                               [9, -2],
+                               1 / (9 * 9),
+                               0.000001),
+             ]
+
+    st.SimpleTestCase.run_tests('problem1c', tests)
+
+
+def problem1c(m, n):
+    ####################################################################
+    # IMPORTANT: In solving this problem,
+    #   You must NOT use the  **  operator.
+    #   You must NOT use any functions in the math module.
+    ####################################################################
+    """
+    What comes in:
+      -- Two integers m and n.
+           Assume that m is not 0.
+           Assume that if m is negative, n is not negative.
+    What goes out:
+      -- Returns m raised to the nth power.
+    Side effects: None.
+    Examples:
+      problem1d(2, 3)   returns 8
+      problem1d(2, -3)  returns 0.125
+      problem1d(-2, 3)  returns -8
+      problem1d(-2, 0)  returns 1
+    """
+    # ------------------------------------------------------------------
+    # TODO: 4. Implement and test this function.
+    #          Tests have been written for you (above).
+    # IMPORTANT: See the  RESTRICTION  just below the DEF line.
+    # ------------------------------------------------------------------
+
+
+def test_problem1d():
+    """ Tests the    problem1d    function. """
+    tests = [st.SimpleTestCase(problem1d,
+                               ['abc', 'axy'],
+                               1),
+             st.SimpleTestCase(problem1d,
+                               ['foo', 'bar'],
+                               0),
+             st.SimpleTestCase(problem1d,
+                               ['ninja', 'ninja'],
+                               -1),
+             st.SimpleTestCase(problem1d,
+                               ['', ''],
+                               -1),
+             st.SimpleTestCase(problem1d,
+                               ['abx', 'aby'],
+                               2),
+             st.SimpleTestCase(problem1d,
+                               ['this is almost the same',
+                                'this is almost the Same'],
+                               19),
+             ]
+
+    st.SimpleTestCase.run_tests('test_problem1d', tests)
+
+
+def problem1d(one, two):
+    """
+    What comes in:
+      -- Two strings   one  and   two.
+         Assume that the strings have the same length.
+    What goes out:
+      -- Returns the smallest index at which the strings differ,
+           or -1 if the strings are the same.
+    Side effects: None.
+    Examples:
+      problem1e('abc', 'axy')     returns 1
+      problem1e('foo', 'bar')     returns 0
+      problem1e('ninja', 'ninja') returns -1
+      problem1e('', '')           returns -1
+    """
+    # ------------------------------------------------------------------
+    # TODO: 5. Implement and test this function.
+    #          Tests have been written for you (above).
+    # ------------------------------------------------------------------
+
+
+def test_problem1e():
+    """ Tests the    problem1e    function. """
+    tests = [st.SimpleTestCase(problem1e,
+                               [[2, 10],
+                                [1, 200]],
+                               [2, 200]),
+             st.SimpleTestCase(problem1e,
+                               [[-5,  60, 7],
+                                [-10, 400, 8]],
+                               [-5, 400, 8]),
+             st.SimpleTestCase(problem1e,
+                               [[1, 2, 3, 4],
+                                [5, 6, 7, 8]],
+                               [5, 6, 7, 8]),
+             st.SimpleTestCase(problem1e,
+                               [[5, 6, 7, 8],
+                                [7, 1, 6, 9]],
+                               [7, 6, 7, 9]),
+             st.SimpleTestCase(problem1e,
+                               [[1, -1, 2, -2, 3, -3, 4, -4, 5, -5],
+                                [-1, 2, -2, 3, -3, 4, -4, 5, -5, 5]],
+                               [1, 2, 2, 3, 3, 4, 4, 5, 5, 5]),
+             ]
+
+    st.SimpleTestCase.run_tests('test_problem1e', tests)
+
+
+def problem1e(one, two):
+    """
+    What comes in:
+      -- Two lists of integers. 
+         Assume that the lists have the same length.
+    What goes out:
+      -- Returns a new list that contains the pairwise max
+           of the corresponding elements of the original lists
+           (i.e. the larger of the two numbers in that slot
+           in the original lists)
+    Side effects: None.
+    Examples:
+      problem1e([2,  10],
+                [1, 200])        returns [2, 200]
+
+      problem1e([ -5,  60, 7],
+                [-10, 400, 8])   returns [-5, 400, 8]
+    """
+    # ------------------------------------------------------------------
+    # TODO: 6. Implement and test this function.
+    #          Tests have been written for you (above).
+    # ------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+# Calls  main  to start the ball rolling.
+# ----------------------------------------------------------------------
+main()

@@ -1,0 +1,79 @@
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+/**
+ * @author <<Eric and Bill>>
+ */
+public class Doublets {
+	private LinksInterface links;
+
+	public Doublets(LinksInterface links) {
+		this.links = links;
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Welcome to Doublets, a game of 'verbal torture.'");
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		Doublets doublet = new Doublets(new Links("../DoubletsData/english.cleaned.all.35.txt"));
+		while (true) {
+			String commandLine = scanner.nextLine();
+			Set<String> result = handleCommand(commandLine);
+			System.out.println(result.toString());
+		}
+	}
+
+	public Chain findChain(String start, String end, ChainManager manager) {
+		if (start.length() != end.length())
+			return null;
+		String wordToExpand = "";
+
+		if (manager.isEmpty()) {
+			Chain c = new Chain();
+			wordToExpand = start;
+			c = c.addLast(wordToExpand);
+			manager.add(c);
+		}
+		Set<Chain> tempChains = new HashSet<>();
+		while (!wordToExpand.equals(end)) {
+			while (!manager.isEmpty()) {
+				for (String word : links.getCandidates(wordToExpand)) {
+					Chain c = manager.next();
+					if (!c.contains(word)) {
+						if (word.equals(end))
+							return c;
+						c = c.addLast(word);
+						tempChains.add(c);
+						wordToExpand = c.getLast();
+						System.out.println(c.toString());
+						if(wordToExpand.equals(end))
+							return c;
+						
+					}
+					System.out.println(c.toString());
+				}
+			}
+			for(Chain c: tempChains) {
+				manager.add(c);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * This method handles interacting with the user.
+	 * 
+	 * @param String
+	 */
+	private static Set<String> handleCommand(String command) {
+		Scanner input = new Scanner(command);
+
+		String word = input.next();
+		Set<String> toReturn = null;
+
+		input.close();
+		return toReturn;
+	}
+
+}

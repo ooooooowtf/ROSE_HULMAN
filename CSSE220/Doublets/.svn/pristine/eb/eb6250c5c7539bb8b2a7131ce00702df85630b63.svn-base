@@ -1,0 +1,68 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class Links implements LinksInterface{
+	private File file;
+	
+	public Links(String fileName) {
+		this.file = new File(fileName);
+	}
+	
+	@Override
+	public Set<String> getCandidates(String word) {
+		Scanner sc1 = null;
+		try {
+			sc1 = new Scanner(file);
+		} catch (FileNotFoundException exception) {
+			exception.printStackTrace();
+		}// Creates a scanner stores all words into a HashSet
+		
+		Set<String> allWords = new HashSet<>();
+		while(sc1.hasNextLine()) {
+			allWords.add(sc1.nextLine());
+		}
+		if(!allWords.contains(word))
+			return null; // Checks to see if it's a bad word.
+		
+		
+		Scanner sc = null;
+		try {
+			sc = new Scanner(file);
+		} catch (FileNotFoundException exception) {
+			exception.printStackTrace();
+		}// Creates a scanner that reads for potential candidates.
+		
+		
+		Set<String> candidates = new HashSet<>();
+		// Set of Strings that differ by 1 letter.
+		
+		while(sc.hasNextLine()) {
+			String word2 = sc.nextLine();
+
+			if(word2.length() != word.length())
+				continue;// Moves on to the next word if their lengths aren't the same.
+			
+			int diffCount = 0;
+			for(int i = 0; i < word.length(); i ++) {
+				if(word.charAt(i) != word2.charAt(i))
+					diffCount++;// Makes the comparison.
+			}
+			
+			if(diffCount == 1) {
+				candidates.add(word2);
+			}
+		}
+		
+		return candidates;
+	}
+
+	@Override
+	public boolean exists(String word) {
+		// TODO Auto-generated method stub.
+		return false;
+	}
+
+}

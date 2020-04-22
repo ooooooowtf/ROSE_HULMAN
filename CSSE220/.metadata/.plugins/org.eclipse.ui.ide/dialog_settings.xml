@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="C:\EclipseWorkspaces\csse220\InterfacesSolution"/>
+		<item value="C:\EclipseWorkspaces\csse220\FilesAndExceptionsSolution"/>
+		<item value="C:\EclipseWorkspaces\csse220\InheritanceSolution"/>
+	</list>
+	<section name="ExternalProjectImportWizard">
+		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\EclipseWorkspaces\csse220\MergeSortSimpleSolution"/>
+			<item value="C:\EclipseWorkspaces\csse220\AProject"/>
+			<item value="C:\EclipseWorkspaces\csse220\DoubleDispatchSolution"/>
+			<item value="C:\EclipseWorkspaces\csse220\MoreEventBasedProgramming"/>
+			<item value="C:\EclipseWorkspaces\csse220\LinkedListSimpleSolution"/>
+			<item value="C:\EclipseWorkspaces\csse220\Exam2-201510"/>
+			<item value="C:\EclipseWorkspaces\csse220\Exam2-201720-Solution"/>
+			<item value="C:\EclipseWorkspaces\csse220\Exam2-201720"/>
+			<item value="C:\EclipseWorkspaces\csse220"/>
+			<item value="C:\EclipseWorkspaces\csse220\Exam2-201610-Solution"/>
+			<item value="C:\EclipseWorkspaces\csse220\Exam2-201610"/>
+			<item value="C:\EclipseWorkspaces\csse220\EncapsulationExamplesSolution"/>
+			<item value="C:\EclipseWorkspaces\csse220\FirstOODesignPracticeSolution"/>
+			<item value="C:\EclipseWorkspaces\csse220\SampleExams"/>
+			<item value="C:\EclipseWorkspaces\csse220\PracticeExam1Solution"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
+	<section name="NewWizardAction">
+		<item value="org.eclipse.jdt.ui.wizards.JavaProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+		</list>
+	</section>
+</section>

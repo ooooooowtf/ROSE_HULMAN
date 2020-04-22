@@ -1,0 +1,20 @@
+package stage1;
+
+public class Content {
+	private String title;
+	private int shots;
+
+	public Content(String titl, int shox) {
+		this.title = titl;
+		this.shots = shox;
+	}
+
+	public String returnTitl() {
+		return this.title;
+	}
+
+	public int returnShots() {
+		return this.shots;
+	}
+
+}

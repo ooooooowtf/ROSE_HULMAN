@@ -1,0 +1,49 @@
+package evaluator;
+
+import java.util.Stack;
+
+public class PostfixEvaluator extends Evaluator {
+	private Stack<Integer> output;
+	@Override
+	public int evaluate(String postfix) throws ArithmeticException {
+		// TODO Auto-generated method stub.
+		
+		this.output = new Stack<Integer>();
+		for(int i =0;i<postfix.length();i++){
+			char current = postfix.charAt(i);
+			if(Evaluator.isOperator(Character.toString(current))){
+				try{
+				if(current=='+'){
+					this.output.push(this.output.pop()+this.output.pop());
+				}else if(current =='-'){
+					this.output.push(-this.output.pop()+this.output.pop());
+				}else if(current=='*'){
+					this.output.push(this.output.pop()*this.output.pop());
+				}else if(current=='/'){
+					this.output.push(1/this.output.pop()*this.output.pop());
+				}else if(current=='^'){
+					this.output.push(this.output.pop()^2);
+				}}catch(ArithmeticException e){
+					
+				}
+			}else if(Character.isDigit(current)){
+				int a = current;
+//				if (i != postfix.length() - 1 && Character.isDigit(postfix.charAt(i + 1))) {
+//					int b = postfix.charAt(i + 1);
+//					int c = a*10+b;
+//					this.output.push(c);
+//					i++;
+//
+//				} else {
+					this.output.push(a);
+//				}
+			}
+		}
+		
+		if (!output.isEmpty()) 
+            return output.pop();
+        else
+            return 0;
+	}
+
+}

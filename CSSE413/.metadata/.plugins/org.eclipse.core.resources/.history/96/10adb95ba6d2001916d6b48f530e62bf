@@ -1,0 +1,155 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Sudoku {
+
+	private static int boardSize = 0;
+	private static int partitionSize = 0;
+
+	public static int countU = 0;
+	public static int[][] unknowns = null;
+
+	public static void main(String[] args) {
+		String filename = "sudoku9Easy.txt";
+		File inputFile = new File(filename);
+		Scanner input = null;
+		int[][] vals = null;
+
+		int temp = 0;
+		int count = 0;
+
+		int ucount = 0;
+
+		try {
+			input = new Scanner(inputFile);
+			temp = input.nextInt();
+			boardSize = temp;
+			partitionSize = (int) Math.sqrt(boardSize);
+			System.out.println("Boardsize: " + temp + "x" + temp);
+			vals = new int[boardSize][boardSize];
+			unknowns = new int[boardSize * boardSize][2];
+
+			System.out.println("Input:");
+			int i = 0;
+			int j = 0;
+
+			while (input.hasNext()) {
+				temp = input.nextInt();
+				count++;
+				System.out.printf("%3d", temp);
+				vals[i][j] = temp;
+				if (temp == 0) {
+					unknowns[ucount][0] = i;
+					unknowns[ucount][1] = j;
+					ucount++;
+				}
+				j++;
+				if (j == boardSize) {
+					j = 0;
+					i++;
+
+					System.out.println();
+				}
+				if (i == boardSize) {
+					countU = ucount;
+					System.out.println("Ucount");
+					System.out.println(countU);
+					break;
+				}
+			}
+			input.close();
+		} catch (FileNotFoundException exception) {
+			System.out.println("Input file not found: " + filename);
+		}
+		if (count != boardSize * boardSize)
+			throw new RuntimeException("Incorrect number of inputs.");
+
+		boolean solved = solve(vals);
+
+		// Output
+//		if (!solved) {
+//			System.out.println("No solution found.");
+//			return;
+//		}
+		System.out.println("\nOutput\n");
+		for (int i = 0; i < boardSize; i++) {
+			for (int j = 0; j < boardSize; j++) {
+				System.out.printf("%3d", vals[i][j]);
+			}
+			System.out.println();
+		}
+
+	}
+
+	public static boolean solve(int[][] vals) {
+		return recS(0, 0, vals);
+	}
+
+	public static boolean recS(int recur, int value, int[][] vals) {
+		
+		
+		if (recur == countU) {
+			return true;
+		}
+		
+		int xPos = unknowns[recur][0];
+		int yPos = unknowns[recur][1];
+
+		for (int var = 1; var <= 9; var++) {
+			value= var;
+			
+			add(value, xPos, yPos, vals);
+
+			if (constrain(value, xPos, yPos, vals)) {
+				recur++;
+				return recS(recur,0, vals);
+			} 
+			
+		}
+		remove(xPos, yPos, vals);	
+		
+		recS(recur, value, vals);
+		
+
+		
+
+		return false;
+	}
+
+	public static boolean constrain(int current, int xPos, int yPos, int[][] vals) {
+
+		for (int i = 0; i < boardSize; i++) {
+			if (vals[i][yPos] == current && i != xPos) {
+				return false;
+			}
+		}
+
+		for (int j = 0; j < boardSize; j++) {
+			if (vals[xPos][j] == current && j != yPos) {
+				return false;
+			}
+		}
+
+		for (int k = 0; k < partitionSize; k++) {
+			for (int m = 0; m < partitionSize; m++) {
+				int xStart = (xPos / partitionSize) * partitionSize;
+				int yStart = (yPos / partitionSize) * partitionSize;
+				if (vals[xStart + k][yStart + m] == current && (xStart + k) != xPos && (yStart + m) != yPos) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public static void add(int value, int xPos, int yPos, int[][] vals) {
+		vals[xPos][yPos] = value;
+	}
+
+	public static void remove(int xPos, int yPos, int[][] vals) {
+		vals[xPos][yPos] = 0;
+	}
+
+}

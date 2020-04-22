@@ -1,0 +1,258 @@
+"""
+The Python Capstone Project.
+
+CSSE 120 - Introduction to Software Development.
+Team members: Jonathan Holst, Ben Lewer, Qishun Yu (all of them).
+
+The primary author of this module is: Qishun Yu.
+"""
+# DONE: Put the names of ALL team members in the above where indicated.
+#       Put YOUR NAME in the above where indicated.
+
+import m0
+import m1
+import m2
+import m4
+
+import time
+import tkinter
+from tkinter import ttk
+import rosebot.standard_rosebot as rb
+import math
+
+
+def my_frame(root, dc):
+    """
+    Constructs and returns a   ttk.Frame   on the given root window.
+    The frame contains all of this module's widgets.
+    Does NOT   grid   the Frame, since the caller will do that.
+    Also sets up callbacks for this module's widgets.
+
+    The first argument is the  root  window (a tkinter.Tk object)
+    onto which the   ttk.Frame  returned from this function
+    will be placed.  The second argument is the shared DataContainer
+    object that is CONSTRUCTED in m0 but USED in m1, m2, m3 and m4.
+
+    Preconditions:
+      :type root: tkinter.Tk
+      :type dc:   m0.DataContainer
+    """
+    frame1 = ttk.Frame(root, padding=10)
+    # do the basic distance
+    distancebutton = m1.LabelBox('basicdistance(cm)', frame1)
+    direcbutton = ttk.Button(frame1, text='Forward')
+    direcbutton['command'] = (lambda:
+                              movedistance(dc, distancebutton))
+    distancebutton.grid()
+    direcbutton.grid()
+
+    # move to points you input
+    listbutton = m1.LabelBox('inputpoints', frame1)
+    xybutton = ttk.Button(frame1, text='movetothosepoints')
+
+    xybutton['command'] = (lambda:
+                           movetoxy(dc, listbutton))
+    listbutton.grid()
+    xybutton.grid()
+
+    # follow the blackline
+    followlinebutton = ttk.Button(frame1, text='followline')
+    followlinebutton['command'] = (lambda:
+                                   followblack(dc))
+    followlinebutton.grid()
+
+    # break when reflectance sensor reach thredshold
+    breakthredandstop = ttk.Button(frame1, text='breakwhenreachthredshold')
+    breakthredandstop['command'] = (lambda:
+                                    readreflectance(dc))
+    breakthredandstop.grid()
+
+    # extra feature of parallelparking
+    parallelpark = ttk.Button(frame1, text='parallelarking')
+    parallelpark['command'] = (lambda:
+                               leftparallelpark(dc))
+    parallelpark.grid()
+    return frame1
+
+
+def getleftsensor(dc):
+    "return the value of robot left encoder sensor"
+    return dc.angrybot.sensor_reader.left_encoder.read()
+
+
+def getrightsensor(dc):
+    "return the value of robot right encoder sensor"
+    return dc.angrybot.sensor_reader.right_encoder.read()
+
+
+def movedistance(dc, distancebutton):
+    "Move basic difference, read sensor and get real travel distance"
+    # get the distance and speed, calculate the traveltime
+    distan = int(distancebutton.get())
+    speed = m1.get_speed(dc)
+    traveltime = math.ceil(distan / speed * 100 / 45)
+
+    # control robot to move
+    dc.angrybot.motor_controller.drive_pwm(math.ceil(speed), speed)
+    time.sleep(traveltime)
+    dc.angrybot.motor_controller.drive_pwm(0, 0)
+
+    # print the real distance it traveled
+    print(getleftsensor(dc))
+    print(getrightsensor(dc))
+    dc.angrybot.sensor_reader.left_encoder.reset()
+    dc.angrybot.sensor_reader.right_encoder.reset()
+
+
+def moveback(dc, distance):
+    "a function that tell robot to move back a certan distance"
+    distan = distance
+    traveltime = math.ceil(distan / 40 * 100 / 45)
+    dc.angrybot.motor_controller.drive_pwm(-math.ceil(40 * 0.75), -40)
+    time.sleep(traveltime)
+    dc.angrybot.motor_controller.drive_pwm(0, 0)
+
+
+def pid(dc, distance, speed):
+    "PDI control"
+    k = 1
+    while True:
+        ticks_l = dc.angrybot.sensor_reader.left_encoder.get_ticks()
+        ticks_r = dc.angrybot.sensor_reader.right_encoder.get_ticks()
+        diff = ticks_l - ticks_r
+        dc.angrybot.motor_controller.drive_pwm(speed,
+                                               int(round(m1.clamp(speed + diff *
+                                                               k, 0, 255))))
+        if distance <= ticks_l:
+            break
+
+
+def movetoxy(dc, lists):
+    "Feature 12"
+
+    # break down the lists of points into numbers so it can move to that.
+    liststr = str(lists.get())
+    listnum = liststr.replace('(', '').replace(')', '').split(',')
+
+    for k in range(len(listnum)):
+        if k % 2 == 0:
+            m1.turn_right_degrees(90, dc)
+        else:
+            m1.turn_left_degrees(90, dc)
+        if k <= 1:
+            distan = int(listnum[k])
+        else:
+            distan = int(listnum[k] - listnum[k - 2])
+        traveltime = math.ceil(distan / 50 * 100 / 45)
+        dc.angrybot.motor_controller.drive_pwm(100, 100)
+        time.sleep(traveltime)
+        dc.angrybot.motor_controller.drive_pwm(0, 0)
+
+        m1.stop_moving(dc)
+
+
+def readreflectance(dc):
+    "Feature 7"
+    # repeat reading sensor
+    while True:
+
+        ls = dc.angrybot.sensor_reader.left_reflectance_sensor.read()
+        ms = dc.angrybot.sensor_reader.middle_reflectance_sensor.read()
+        rs = dc.angrybot.sensor_reader.right_reflectance_sensor.read()
+        # print sensor data
+        print(ls)
+        print(ms)
+        print(rs)
+        print('')
+        print('')
+        m1.forward(dc)
+
+        # stop when reach threshold
+        if ls > 700 and rs > 700:
+            dc.angrybot.motor_controller.drive_pwm(0, 0)
+            break
+
+
+def followblack(dc):
+    "Feature 9"
+    # Porpotion coefficience
+    Vp = 0.003
+    # Differential coefficience
+    Vd = 0.002
+    # Integration coefficience
+    Vi = 0.001
+    Speed = 30
+
+    threshold = 700
+    rdiff = []
+    ldiff = []
+    dc.robot.motor_controller.drive_pwm(Speed, Speed)
+    # creat a loop to do pid
+    while True:
+        ls = dc.robot.sensor_reader.left_reflectance_sensor.read()
+        rs = dc.robot.sensor_reader.right_reflectance_sensor.read()
+        ms = dc.robot.sensor_reader.middle_reflectance_sensor.read()
+        if rs < threshold:
+            rsum = 0
+            difr = threshold - rs
+            ddifr = 0
+            rdiff.append(difr)
+
+            # a list to store the coefficiences and use it
+            if (len(rdiff) > 1):
+                ddifr = rdiff[len(rdiff) - 1] - rdiff[len(rdiff) - 2]
+            for k in range(len(rdiff)):
+                rsum += rdiff[k]
+            error = int(Vp * difr + Vd * ddifr + Vi * rsum)
+            dc.robot.motor_controller.drive_pwm(Speed, Speed + error)
+        if ls < threshold:
+            lsum = 0
+            difl = threshold - ls
+            ddifl = 0
+            ldiff.append(difl)
+
+            if (len(ldiff) > 1):
+                ddifl = ldiff[len(ldiff) - 1] - ldiff[len(ldiff) - 2]
+            for k in range(len(ldiff)):
+                lsum += ldiff[k]
+            error = int(Vp * difl + Vd * ddifl + Vi * lsum)
+            dc.robot.motor_controller.drive_pwm(Speed + error, Speed)
+        if rs < 100 and ls < 100 and ms < 100:
+            dc.robot.motor_controller.stop()
+            break
+    print('The robot stops')
+
+
+def leftparallelpark(dc):
+    "Feature 20 reverse for a distance and left turn into the place"
+    # backward
+    moveback(dc, 100)
+    # get in slot
+    m1.turn_right_degrees(45, dc)
+    moveback(dc, 30)
+    m1.turn_left_degrees(45, dc)
+    # backward
+    moveback(dc, 30)
+
+
+def showangry(dc):
+    "show angry when bump into wall"
+    dc.angrybot.motor_controller.drive_pwm(80 * 0.9, 80)
+    time.sleep(100)
+
+    # check if the bot bump into a wall, then show angry
+    if dc.angrybot.sensor_reader.left_bump_sensor.read() == 0:
+        dc.angrybot.motor_controller.drive_pwm(-72, 80)
+        time.sleep(1)
+        dc.angrybot.motor_controller.drive_pwm(100, -100)
+        time.sleep(3)
+        dc.angrybot.motor_controller.drive_pwm(-100, 100)
+        time.sleep(3)
+
+
+# ----------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+# ----------------------------------------------------------------------
+if __name__ == '__main__':
+    m0.main()
