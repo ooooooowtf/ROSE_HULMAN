@@ -1,4 +1,5 @@
 {
-    "sketch": "TrafficLightArduinoLibrary\\TrafficLightArduinoLibrary.ino",
-    "board": "arduino:avr:uno"
+    "sketch": "TrafficLightWithSFRs\\TrafficLightWithSFRs.ino",
+    "board": "arduino:avr:uno",
+    "port": "COM3"
 }
