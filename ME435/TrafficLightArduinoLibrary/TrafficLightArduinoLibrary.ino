@@ -6,6 +6,7 @@
 
 void setup()
 {
+    Serial.begin(9600)
   pinMode(redLight, OUTPUT);
   pinMode(yellowLight, OUTPUT);
   pinMode(greenLight, OUTPUT);
