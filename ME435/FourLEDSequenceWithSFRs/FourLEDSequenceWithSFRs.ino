@@ -128,7 +128,7 @@ void loop()
         mainEventFlags &= ~FLAG_YELLOW;
         if (bit_is_clear(PORT_BUTTON_YELLOW, BIT_BUTTON_YELLOW))
         {
-            addLed(BIT_LED_YELLOW));
+            addLed(BIT_LED_YELLOW);
         }
     }
 
@@ -209,28 +209,32 @@ ISR(PCINT2_vect)
 
     if (changedbits & _BV(BIT_BUTTON_RED))
     {
-        if (bit_is_clear(PIN_BUTTON_RED,BIT_BUTTON_RED){
+        if (bit_is_clear(PIN_BUTTON_RED, BIT_BUTTON_RED))
+        {
             mainEventFlags |= FLAG_RED;
         }
     }
 
     if (changedbits & _BV(BIT_BUTTON_YELLOW))
     {
-        if (bit_is_clear(PIN_BUTTON_YELLOW,BIT_BUTTON_YELLOW){
+        if (bit_is_clear(PIN_BUTTON_YELLOW, BIT_BUTTON_YELLOW))
+        {
             mainEventFlags |= FLAG_YELLOW;
         }
     }
 
     if (changedbits & _BV(BIT_BUTTON_GREEN))
     {
-        if (bit_is_clear(PIN_BUTTON_GREEN,BIT_BUTTON_GREEN){
+        if (bit_is_clear(PIN_BUTTON_GREEN, BIT_BUTTON_GREEN))
+        {
             mainEventFlags |= FLAG_GREEN;
         }
     }
 
     if (changedbits & _BV(BIT_BUTTON_BLUE))
     {
-        if (bit_is_clear(PIN_BUTTON_BLUE,BIT_BUTTON_BLUE){
+        if (bit_is_clear(PIN_BUTTON_BLUE, BIT_BUTTON_BLUE))
+        {
             mainEventFlags |= FLAG_BLUE;
         }
     }
