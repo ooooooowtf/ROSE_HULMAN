@@ -8,7 +8,9 @@
                 "D:\\Program Files (x86)\\Arduino\\tools\\**",
                 "D:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\**"
             ],
-            "forcedInclude": [],
+            "forcedInclude": [
+                "D:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
+            ],
             "intelliSenseMode": "msvc-x64"
         }
     ],

@@ -2,9 +2,9 @@
 
 //OUTPUT PORTS AND BITS
 #define PORT_LED_RED PORTB
-#define BIT_LED_RED 2
+#define BIT_LED_RED 3
 #define PORT_LED_YELLOW PORTB
-#define BIT_LED_YELLOW 1
+#define BIT_LED_YELLOW 2
 #define PORT_LED_GREEN PORTD
 #define BIT_LED_GREEN 6
 #define PORT_LED_BLUE PORTD
@@ -33,11 +33,7 @@ volatile int mainEventFlags = 0;
 
 // TRACK PORTD CHANGE
 volatile uint8_t portdhistory = 0xFF;
-
-uint8_t greenState = 1;
-uint8_t blueState = 1;
-uint8_t lastGreenState = 1;
-uint8_t lastBlueState = 1;
+  
 
 uint8_t currentIndex = 0;
 uint8_t savedLeds[10] = {BIT_LED_BLUE,
@@ -76,7 +72,7 @@ void setup()
 void loop()
 {
 
-    if (bit_is_clear(PORT_BUTTON_RED, BIT_BUTTON_RED))
+    if (bit_is_clear(PIN_BUTTON_RED, BIT_BUTTON_RED))
     {
         PORT_LED_RED |= _BV(BIT_LED_RED);
     }
@@ -85,7 +81,7 @@ void loop()
         PORT_LED_RED &= ~_BV(BIT_LED_RED);
     }
 
-    if (bit_is_clear(PORT_BUTTON_YELLOW, BIT_BUTTON_YELLOW))
+    if (bit_is_clear(PIN_BUTTON_YELLOW, BIT_BUTTON_YELLOW))
     {
         PORT_LED_YELLOW |= _BV(BIT_LED_YELLOW);
     }
@@ -94,7 +90,7 @@ void loop()
         PORT_LED_YELLOW &= ~_BV(BIT_LED_YELLOW);
     }
 
-    if (bit_is_clear(PORT_BUTTON_GREEN, BIT_BUTTON_GREEN))
+    if (bit_is_clear(PIN_BUTTON_GREEN, BIT_BUTTON_GREEN))
     {
         PORT_LED_GREEN |= _BV(BIT_LED_GREEN);
     }
@@ -103,7 +99,7 @@ void loop()
         PORT_LED_GREEN &= ~_BV(BIT_LED_GREEN);
     }
 
-    if (bit_is_clear(PORT_BUTTON_BLUE, BIT_BUTTON_BLUE))
+    if (bit_is_clear(PIN_BUTTON_BLUE, BIT_BUTTON_BLUE))
     {
         PORT_LED_BLUE |= _BV(BIT_LED_BLUE);
     }
@@ -116,7 +112,7 @@ void loop()
     {
         delay(20);
         mainEventFlags &= ~FLAG_RED;
-        if (bit_is_clear(PORT_BUTTON_RED, BIT_BUTTON_RED))
+        if (bit_is_clear(PIN_BUTTON_RED, BIT_BUTTON_RED))
         {
             addLed(BIT_LED_RED);
         }
@@ -126,7 +122,7 @@ void loop()
     {
         delay(20);
         mainEventFlags &= ~FLAG_YELLOW;
-        if (bit_is_clear(PORT_BUTTON_YELLOW, BIT_BUTTON_YELLOW))
+        if (bit_is_clear(PIN_BUTTON_YELLOW, BIT_BUTTON_YELLOW))
         {
             addLed(BIT_LED_YELLOW);
         }
@@ -136,7 +132,7 @@ void loop()
     {
         delay(20);
         mainEventFlags &= ~FLAG_GREEN;
-        if (bit_is_clear(PORT_BUTTON_GREEN, BIT_BUTTON_GREEN))
+        if (bit_is_clear(PIN_BUTTON_GREEN, BIT_BUTTON_GREEN))
         {
             addLed(BIT_LED_GREEN);
         }
@@ -146,7 +142,7 @@ void loop()
     {
         delay(20);
         mainEventFlags &= ~FLAG_BLUE;
-        if (bit_is_clear(PORT_BUTTON_BLUE, BIT_BUTTON_BLUE))
+        if (bit_is_clear(PIN_BUTTON_BLUE, BIT_BUTTON_BLUE))
         {
             runSequence();
         }
