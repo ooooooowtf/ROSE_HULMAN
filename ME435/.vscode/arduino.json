@@ -1,5 +1,5 @@
 {
     "board": "arduino:avr:uno",
     "port": "COM3",
-    "sketch": "FourLEDSequenceWithSFRs\\FourLEDSequenceWithSFRs.ino"
+    "sketch": "Lab4\\Lab4.ino"
 }
