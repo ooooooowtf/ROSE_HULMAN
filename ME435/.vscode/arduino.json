@@ -1,5 +1,5 @@
 {
     "board": "arduino:avr:uno",
     "port": "COM3",
-    "sketch": "Exam2_Yu\\Exam2_Yu.ino"
+    "sketch": "05-HardwareTest\\05-HardwareTest.ino"
 }
