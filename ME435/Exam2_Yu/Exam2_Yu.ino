@@ -74,7 +74,6 @@ void setup()
     // SET TIMER INTERRUPTS
     // RESET TIMER 1 CONTROL REG A
     TCCR1A = 0;
-
     //SET PRESCALER TO 64
     TCCR1B &= ~_BV(CS12);
     TCCR1B |= _BV(CS11);
