@@ -1,115 +1,132 @@
-#define PIN_LED_RED 10
-#define PIN_LED_YELLOW 9
-#define PIN_LED_GREEN 6
-#define PIN_LED_BLUE 5
+// INPUT BUTTON
+#define PORT_BUTTON PORTD
+#define BIT_BUTTON_BLUE 2
+#define BIT_BUTTON_GREEN 3
+#define BIT_BUTTON_YELLOW 4
+#define BIT_BUTTON_RED 7
 
-#define PIN_PUSHBUTTON_RED 7
-#define PIN_PUSHBUTTON_YELLOW 4
-#define PIN_PUSHBUTTON_GREEN 3
-#define PIN_PUSHBUTTON_BLUE 2
+#define BIT_ANA A0
+#define BIT_BRIGHT A1
 
-#define PIN_RGB_LED_RED 11
-#define PIN_RGB_LED_GREEN 12
-#define PIN_RGB_LED_BLUE 13
+// OUTPUT LED/RGB
+#define BIT_LED_BLUE 5
+#define BIT_LED_GREEN 6
+#define BIT_LED_YELLOW 9
+#define BIT_LED_RED 10
 
-#define PIN_ANALOG_POT 0
-#define PIN_ANALOG_PHOTOCELL 1
+#define BIT_RGB_RED 11
+#define BIT_RGB_GREEN 12
+#define BIT_RGB_BLUE 13
 
-/*** Interrupt flags ***/
+// MAIN EVENT FLAG
 volatile int mainEventFlags = 0;
-#define FLAG_GREEN_INTERRUPT 0x01
-#define FLAG_BLUE_INTERRUPT 0x02
+#define FLAG_GREEN 0x01
+#define FLAG_BLUE 0x02
 
-int rgbCounter = 0;
-unsigned long oldTime = 0;
+//TIMER AND COUNTER
+uint8_t counter = 0;
+unsigned long priorTimeMS = 0;
 
-void setup() {
-  Serial.begin(9600);
-  pinMode(PIN_LED_RED, OUTPUT);
-  pinMode(PIN_LED_YELLOW, OUTPUT);
-  pinMode(PIN_LED_GREEN, OUTPUT);
-  pinMode(PIN_LED_BLUE, OUTPUT);
-  digitalWrite(PIN_LED_RED, LOW);
-  digitalWrite(PIN_LED_YELLOW, LOW);
-  digitalWrite(PIN_LED_GREEN, LOW);
-  digitalWrite(PIN_LED_BLUE, LOW);
+void setup()
+{        
+    // SET OUTPUTS
+    pinMode(BIT_LED_BLUE, OUTPUT);
+    pinMode(BIT_LED_GREEN, OUTPUT);
+    pinMode(BIT_LED_YELLOW, OUTPUT);
+    pinMode(BIT_LED_RED, OUTPUT);
 
-  pinMode(PIN_PUSHBUTTON_RED, INPUT_PULLUP);
-  pinMode(PIN_PUSHBUTTON_YELLOW, INPUT_PULLUP);
-  pinMode(PIN_PUSHBUTTON_GREEN, INPUT_PULLUP);
-  pinMode(PIN_PUSHBUTTON_BLUE, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(PIN_PUSHBUTTON_GREEN), green_isr, FALLING);
-  attachInterrupt(digitalPinToInterrupt(PIN_PUSHBUTTON_BLUE), blue_isr, FALLING);
-  
-  pinMode(PIN_RGB_LED_RED, OUTPUT);
-  pinMode(PIN_RGB_LED_GREEN, OUTPUT);
-  pinMode(PIN_RGB_LED_BLUE, OUTPUT);
-  digitalWrite(PIN_RGB_LED_RED, LOW);
-  digitalWrite(PIN_RGB_LED_GREEN, LOW);
-  digitalWrite(PIN_RGB_LED_BLUE, LOW);
-  
-  // No need to setup the Analog inputs, that is the default
+    pinMode(BIT_RGB_RED, OUTPUT);
+    pinMode(BIT_RGB_GREEN, OUTPUT);
+    pinMode(BIT_RGB_BLUE, OUTPUT);
+
+    digitalWrite(BIT_LED_BLUE, LOW);
+    digitalWrite(BIT_LED_GREEN, LOW);
+    digitalWrite(BIT_LED_YELLOW, LOW);
+    digitalWrite(BIT_LED_RED, LOW);
+
+    digitalWrite(BIT_RGB_RED, LOW);
+    digitalWrite(BIT_RGB_GREEN, LOW);
+    digitalWrite(BIT_RGB_BLUE, LOW);
+
+    // SET PULLUP RESISTORS
+    pinMode(BIT_BUTTON_BLUE, INPUT_PULLUP);
+    pinMode(BIT_BUTTON_GREEN, INPUT_PULLUP);
+    pinMode(BIT_BUTTON_YELLOW, INPUT_PULLUP);
+    pinMode(BIT_BUTTON_RED, INPUT_PULLUP);
+
+    // SET UP PD1-2 INTERRUPTS
+    attachInterrupt(digitalPinToInterrupt(BIT_BUTTON_GREEN), green_isr, FALLING);
+    attachInterrupt(digitalPinToInterrupt(BIT_BUTTON_BLUE), blue_isr, FALLING);
+
+    // SERIAL BEGIN
+    Serial.begin(9600);
 }
 
-void loop() {
-  int potReading = analogRead(PIN_ANALOG_POT);
-  int photocellReading = analogRead(PIN_ANALOG_PHOTOCELL);
-  displayAnalogInfo(potReading, photocellReading);
-  
-  lightPressedButtons();
+void loop()
+{
+    digitalWrite(BIT_LED_BLUE,!digitalRead(BIT_BUTTON_BLUE));
+    digitalWrite(BIT_LED_GREEN,!digitalRead(BIT_BUTTON_GREEN));
+    digitalWrite(BIT_LED_YELLOW,!digitalRead(BIT_BUTTON_YELLOW));
+    digitalWrite(BIT_LED_RED,!digitalRead(BIT_BUTTON_RED));
 
-  if (mainEventFlags & FLAG_GREEN_INTERRUPT) {
-    delay(20);
-    mainEventFlags &= ~FLAG_GREEN_INTERRUPT;
-    if (!digitalRead(PIN_PUSHBUTTON_GREEN)) {
-      rgbCounter = 0;
-      updateRgb();
+    int potVal = analogRead(BIT_ANA);
+    int photoVal = analogRead(BIT_BRIGHT);
+
+    unsigned long currentTimeMS = millis();
+  	unsigned long elapsedTimeMS = currentTimeMS-priorTimeMS;
+    if (elapsedTimeMS > 2000)
+    {
+        Serial.print("Pot = ");
+        Serial.print(potVal);
+        Serial.print(" Photoresistor = ");
+        Serial.println(photoVal);
     }
-  }
-  if (mainEventFlags & FLAG_BLUE_INTERRUPT) {
-    delay(20);
-    mainEventFlags &= ~FLAG_BLUE_INTERRUPT;
-    if (!digitalRead(PIN_PUSHBUTTON_BLUE)) {
-      rgbCounter += 1;
-      if (rgbCounter > 7) {
-        rgbCounter = 0;
-      }
-      updateRgb();
+
+
+    if (mainEventFlags & FLAG_GREEN)
+    {
+        delay(20);
+        mainEventFlags &= ~FLAG_GREEN;
+        if (!digitalRead(BIT_BUTTON_GREEN))
+        {
+            counter = 0;
+            updateRgb();
+        }
     }
-  }
-  delay(100);
+    if (mainEventFlags & FLAG_BLUE)
+    {
+        delay(20);
+        mainEventFlags &= ~FLAG_BLUE;
+        if (!digitalRead(BIT_BUTTON_BLUE))
+        {
+            counter += 1;
+            if (counter > 7)
+            {
+                counter = 0;
+            }
+            updateRgb();
+        }
+    }
+    delay(100);
 }
 
-void lightPressedButtons() {
-  char button_pins[] = {PIN_PUSHBUTTON_RED, PIN_PUSHBUTTON_YELLOW, PIN_PUSHBUTTON_GREEN, PIN_PUSHBUTTON_BLUE};
-  char led_pins[] = {PIN_LED_RED, PIN_LED_YELLOW, PIN_LED_GREEN, PIN_LED_BLUE};
-  for (int k = 0; k < sizeof(button_pins); ++k) {
-    digitalWrite(led_pins[k], !digitalRead(button_pins[k]));
-  }
+// update function from Dr.Fisher's GITHUB
+void updateRgb()
+{
+    digitalWrite(BIT_RGB_RED, counter >> 2 & 0x01);
+    digitalWrite(BIT_RGB_GREEN, counter >> 1 & 0x01);
+    digitalWrite(BIT_RGB_BLUE, counter >> 0 & 0x01);
 }
 
-void updateRgb() {
-  digitalWrite(PIN_RGB_LED_RED, rgbCounter >> 2 & 0x01);
-  digitalWrite(PIN_RGB_LED_GREEN, rgbCounter >> 1 & 0x01);
-  digitalWrite(PIN_RGB_LED_BLUE, rgbCounter >> 0 & 0x01);
+
+// BLUE ISR
+void blue_isr()
+{
+    mainEventFlags |= FLAG_BLUE;
 }
 
-void displayAnalogInfo(int pot, int photocell) {
-  int currentTime = millis();
-  if (currentTime - oldTime > 2000) {
-    oldTime = currentTime;
-    Serial.print("Pot = ");
-    Serial.print(pot);
-    Serial.print("  Photocell = ");
-    Serial.println(photocell);
-  }
-}
-
-// Simple ISRs that set flags only
-void blue_isr() {
-  mainEventFlags |= FLAG_BLUE_INTERRUPT;
-}
-
-void green_isr() {
-  mainEventFlags |= FLAG_GREEN_INTERRUPT;
+// GREEN ISR
+void green_isr()
+{
+    mainEventFlags |= FLAG_GREEN;
 }
