@@ -1,3 +1,4 @@
+//Final Project
 #define BIT_ANA A0
 #define BIT_BRIGHT A1
 
